@@ -1,0 +1,45 @@
+html,body{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+.system_header{
+	width: 100%;
+	height: 4.5vw;
+	background-color: #263238;
+	line-height: 4.5vw;
+	color: #C0C4CC;
+	position: relative;
+}
+.system_header strong:first-of-type{
+	font-size: 1.7vw;
+	margin-left: 1vw;
+	/*font-family: ;*/
+}
+.system_header strong:last-of-type{
+	position: absolute;
+	right: 0;
+	margin-right: 2vw;	
+}
+.nav-head{
+	background-color: #009688;
+}
+.nav-head span{
+	color: white;
+}
+.system_bottom{
+	width: calc(100% - 15vw);
+	height: 2.8vw;
+	background-color: #F0F0F0;
+	position: absolute;
+	float: left;
+	bottom: 0;
+	margin-left: 15vw;
+	text-align: center;
+	line-height: 2.8vw;
+}
+.menu_logo{
+	width: 1.4vw;
+	height: 1.4vw;
+}

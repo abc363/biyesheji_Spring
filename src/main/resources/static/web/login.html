@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>微风科技后台系统登录</title>
+		<!--导入核心文件-->
+		<link rel="icon"href="../images/logo.jpg"type="image/x-icon"/>
+		<!--<script src="../bootstrap3/js/holder.js"></script>-->
+		<link href="../bootstrap3/css/bootstrap.css" rel="stylesheet" type="text/css">
+		<script src="../bootstrap3/jquery-1.9.1.min.js"></script>
+		<!--<script src="../bootstrap3/js/bootstrap.js"></script>-->
+		<!-- 字体图标 -->
+		<!--<link rel="stylesheet" href="../bootstrap3/font-awesome-4.7.0/css/font-awesome.css" />-->
+		<link rel="stylesheet" type="text/css" href="../css/top.css" />
+		<link rel="stylesheet" type="text/css" href="../css/index.css" />
+		<link rel="stylesheet" type="text/css" href="../css/layout.css" />
+		<link rel="stylesheet" type="text/css" href="../css/login.css" />
+		<script src="../bootstrap3/js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!--头部-->
+		<header class="header">
+			<img src="../images/logo.jpg" alt="" />
+			<span class="pull-right"><h3><small>欢迎访问</small><b>微风科技</b></h3></span>
+		</header>
+		<!--主体-->
+		<div class="container mycontent text-left">
+			<div class="loginDiv">
+				<h4>用户登录</h4><hr />
+				<!--表单开始-->
+				<form id="form-login" action="index.html"  class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="username" class="col-md-3 control-label">名字：</label>
+						<div class="col-md-8">
+							<input name="username" type="text" class="form-control" id="username"  placeholder="请输入用户名">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="col-md-3 control-label"> 密码：</label>
+						<div class="col-md-8">
+							<input name="password" type="password" class="form-control" id="password"  placeholder="请输入密码">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label"></label>
+						<div class="col-md-8">
+							<input id="btn-login" class="btn btn-primary" type="button" value="登录" />
+							<span class="pull-right"id="login_clear"style="cursor:pointer;">清空</span>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	<script type="text/javascript">
+	//清空输入框
+	$("#login_clear").click(function(){
+		$("#username").val("");
+		$("#password").val("");
+	})
+	$("#btn-login").click(function(){
+		$.ajax({
+			"url":"/users/login",
+			"data":$("#form-login").serialize(),
+			"type":"POST",
+			"dataType":"json",
+			"success":function(json) {
+				if (json.state == 200) {
+					window.location.replace("index.html");
+				} else {
+					alert(json.message);
+				}
+			}
+		});
+	});
+	</script>
+	</body>
+
+</html>

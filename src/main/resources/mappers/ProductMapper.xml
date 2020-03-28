@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.WindTech.store.mapper.ProductMapper">
+
+	<!-- 插入产品数据 -->
+	<!-- Integer insert(Product product) -->
+	<insert id="insert">
+		INSERT INTO product (
+			pro_Name,pro_Type,
+			pro_Num,pro_State,
+			pro_img,pro_info
+		) VALUE (
+			#{pro_Name},
+			#{pro_Type},
+			#{pro_Num}, #{pro_State},
+			#{pro_img}, #{pro_info}
+		)
+	</insert>
+	<!-- 展示产品数据 -->
+	<!--  List<ProductVO> findByPid(); -->
+	<select id="showProduct"
+			resultType="cn.WindTech.store.vo.ProductVO">
+		SELECT
+			pid, pro_Name, pro_Type, pro_img, pro_Num, pro_State
+		FROM
+			product
+	</select>
+	<!-- 展示相应id的产品数据 -->
+	<!--  Product findByPId(Integer pid); -->
+	<select id="findByPId"
+			resultType="cn.WindTech.store.entity.Product">
+		SELECT
+			pid,
+			pro_Name,pro_Type,
+			pro_Num,pro_State,
+			pro_img,pro_info
+		FROM
+			product
+		WHERE
+			pid=#{pid}
+	</select>
+	<!-- 根据id删除产品数据 -->
+	<!-- Integer deleteByPid(Integer pid) -->
+	<delete id="deleteByPid">
+		DELETE FROM product WHERE pid=#{pid}
+	</delete>
+
+	<!-- 统计指定用户的产品数据的数量 -->
+	<!-- Integer countByUid(Integer uid) -->
+	<select id="countProduct"
+			resultType="java.lang.Integer">
+		SELECT
+			COUNT(pid)
+		FROM
+			product
+	</select>
+
+	<!-- 修改相应id的产品数据 -->
+	<!-- Integer updateInfo(Product product) -->
+	<update id="updateInfo">
+			UPDATE
+				product
+			SET
+				pro_Name=#{pro_Name},pro_Type=#{pro_Type},
+				pro_Num=#{pro_Num},
+				pro_State=#{pro_State},
+				pro_img=#{pro_img},
+				pro_info=#{pro_info}
+			WHERE
+				pid=#{pid}
+	</update>
+
+</mapper>
+
+
+
+
+
+

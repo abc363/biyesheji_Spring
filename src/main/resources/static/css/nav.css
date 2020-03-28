@@ -1,0 +1,73 @@
+﻿@charset "utf-8";
+/* 以下实际使用若已初始化可删除 .nav height父级需逐级设置为100%*/
+body,ul{margin:0;padding:0}
+body{font:14px "微软雅黑","宋体","Arial Narrow",HELVETICA;-webkit-text-size-adjust:100%;} 
+li{list-style:none} 
+a{text-decoration:none;}
+/* 以上实际使用若已初始化可删除 */
+
+/* nav */
+.nav{
+
+	width: 15vw;
+height: calc(100% - 4.5vw);
+background: #263238;
+transition: all .3s;
+ position: relative;
+float:left;
+ margin-right: 1vw;
+ top:0;
+ left: 0;}
+.nav a{display: block;
+overflow: hidden;
+padding-left: 20px;
+line-height: 4vw;
+max-height: 4vw;
+color: #ABB1B7;
+transition: all .3s;}
+.nav a span{
+	margin-left: 1vw;
+	}
+.nav-item{position: relative;width: 100%;}
+.nav-item.nav-show{border-bottom: none;}
+.nav-item ul{display: none;background: rgba(0,0,0,.1);}
+.nav-item.nav-show ul{display: block;}
+.nav-item>a:before{content: "";
+position: absolute;
+left: 0px;
+width: 2px;
+height: 46px;
+background: #34A0CE;
+opacity:0;
+transition: all .3s;}
+.nav .nav-icon{font-size: 20px;
+position: absolute;
+margin-left:-1px;}
+.nav-item ul li{
+	font-size: 12px;
+	cursor: pointer;
+}
+/*---------------------*/
+.nav-more{float:right;
+margin-right: 20px;
+font-size: 12px;
+transition: transform .3s;}
+
+.nav-show .nav-more{transform:rotate(90deg);}
+.nav-show,.nav-item>a:hover{color: #FFF;
+background:rgba(0,0,0,.1);}
+.nav-show>a:before,.nav-item>a:hover:before{opacity:1;}
+.nav-item li:hover a{color: #FFF;
+background: rgba(0, 0, 0,.1);}
+
+.my-icon {
+  font-family:"my-icon" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+
