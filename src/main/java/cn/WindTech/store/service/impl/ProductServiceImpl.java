@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.AccessDeniedException;
 import java.util.Date;
 import java.util.List;
 
@@ -60,7 +59,23 @@ public class ProductServiceImpl implements IProductService {
         product.setModifiedUser("WindTech");
         product.setModifiedTime(now);
     }
-
+    @Override
+    public void changeAvatar(Integer pid, String pro_img) throws UserNotFoundException, UpdateException {
+        // 执行更新
+        updateAvatar(pid, pro_img);
+    }
+    /**
+     * 更新用户头像
+     * @param pid 用户的id
+     * @param pro_img 头像的路径
+     */
+    private void updateAvatar(Integer pid, String pro_img) {
+        Integer rows = productMapper.updateAvatar(pid, pro_img);
+        if (rows != 1) {
+            throw new UpdateException(
+                    "修改图片时出现未知错误！");
+        }
+    }
 
     /**
      * 查询产品数据

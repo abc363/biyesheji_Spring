@@ -39,5 +39,11 @@ public interface ProductMapper {
      * @return 受影响的行数
      */
     Integer updateInfo(Product product);
-
+    /**
+     * 更新用户头像
+     * @param pid 用户的id
+     * @param pro_img 头像的路径
+     * @return 受影响的行数
+     */
+    Integer updateAvatar(@Param("pid") Integer pid,@Param("pro_img") String pro_img);
 }

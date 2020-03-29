@@ -79,4 +79,17 @@ public class ProductServiceTestCase {
 			System.err.println(e.getMessage());
 		}
 	}
+
+    @Test
+    public void changeAvatar() {
+        try {
+            Integer pid = 1;
+            String pro_img = "新头像的路径";
+            service.changeAvatar(pid, pro_img);
+            System.err.println("OK.");
+        } catch (ServiceException e) {
+            System.err.println(e.getClass().getName());
+            System.err.println(e.getMessage());
+        }
+    }
 }

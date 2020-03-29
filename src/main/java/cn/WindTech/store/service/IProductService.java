@@ -43,4 +43,12 @@ public interface IProductService {
     void changeInfo(Product product)
             throws UserNotFoundException,
             UpdateException;
+
+    /**
+     * 更新个人头像
+     * @param pro_img 头像路径
+     * @throws UserNotFoundException 用户数据不存在
+     * @throws UpdateException 更新数据异常
+     */
+    void changeAvatar(Integer pid, String pro_img) throws UserNotFoundException, UpdateException;
 }

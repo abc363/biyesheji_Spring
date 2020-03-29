@@ -48,7 +48,7 @@
 	</delete>
 
 	<!-- 统计指定用户的产品数据的数量 -->
-	<!-- Integer countByUid(Integer uid) -->
+	<!-- Integer countProduct-->
 	<select id="countProduct"
 			resultType="java.lang.Integer">
 		SELECT
@@ -72,6 +72,14 @@
 				pid=#{pid}
 	</update>
 
+	<update id="updateAvatar">
+		UPDATE
+			product
+		SET
+			pro_img=#{pro_img}
+		WHERE
+			pid=#{pid}
+	</update>
 </mapper>
 
 

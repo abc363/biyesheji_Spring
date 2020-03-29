@@ -69,4 +69,12 @@ public class ProductMapperTestCase {
 		Integer rows = mapper.updateInfo(pro);
 		System.err.println("rows=" + rows);
 	}
+
+    @Test
+    public void updateAvatar() {
+        Integer pid = 1;
+        String pro_img = "这里应该是头像的路径";
+        Integer rows = mapper.updateAvatar(pid, pro_img);
+        System.err.println("rows=" + rows);
+    }
 }
