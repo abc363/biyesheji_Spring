@@ -10,12 +10,16 @@
 		INSERT INTO product (
 			pro_Name,pro_Type,
 			pro_Num,pro_State,
-			pro_img,pro_info
+			pro_img,pro_info,
+			createdUser, createdTime,
+			modifiedUser, modifiedTime
 		) VALUE (
 			#{pro_Name},
 			#{pro_Type},
 			#{pro_Num}, #{pro_State},
-			#{pro_img}, #{pro_info}
+			#{pro_img}, #{pro_info},
+			#{createdUser}, #{createdTime},
+			#{modifiedUser}, #{modifiedTime}
 		)
 	</insert>
 	<!-- 展示产品数据 -->
@@ -23,7 +27,7 @@
 	<select id="showProduct"
 			resultType="cn.WindTech.store.vo.ProductVO">
 		SELECT
-			pid, pro_Name, pro_Type, pro_img, pro_Num, pro_State
+			*
 		FROM
 			product
 	</select>
@@ -47,16 +51,6 @@
 		DELETE FROM product WHERE pid=#{pid}
 	</delete>
 
-	<!-- 统计指定用户的产品数据的数量 -->
-	<!-- Integer countProduct-->
-	<select id="countProduct"
-			resultType="java.lang.Integer">
-		SELECT
-			COUNT(pid)
-		FROM
-			product
-	</select>
-
 	<!-- 修改相应id的产品数据 -->
 	<!-- Integer updateInfo(Product product) -->
 	<update id="updateInfo">
@@ -66,20 +60,29 @@
 				pro_Name=#{pro_Name},pro_Type=#{pro_Type},
 				pro_Num=#{pro_Num},
 				pro_State=#{pro_State},
-				pro_img=#{pro_img},
-				pro_info=#{pro_info}
+				pro_info=#{pro_info},
+				modifiedUser=#{modifiedUser},modifiedTime=#{modifiedTime}
 			WHERE
 				pid=#{pid}
 	</update>
 
-	<update id="updateAvatar">
+	<!-- 更新产品图片 -->
+	<!--Integer updateImage(-->
+	<!--@Param("pid") Integer pid,-->
+	<!--@Param("pro_img") String pro_img,-->
+	<!--@Param("modifiedUser") String modifiedUser,-->
+	<!--@Param("modifiedTime") String modifiedTime);-->
+	<update id="updateImage">
 		UPDATE
 			product
 		SET
-			pro_img=#{pro_img}
+			pro_img=#{pro_img},
+			modifiedUser=#{modifiedUser},
+			modifiedTime=#{modifiedTime}
 		WHERE
 			pid=#{pid}
 	</update>
+
 </mapper>
 
 

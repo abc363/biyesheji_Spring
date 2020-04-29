@@ -3,7 +3,21 @@
 	"http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.WindTech.store.mapper.UserMapper">
-
+	<!-- 插入用户数据 -->
+	<!-- Integer insert(User user) -->
+	<insert id="insert">
+		INSERT INTO user (
+			username, password,
+			salt, isDelete,
+			createdUser, createdTime,
+			modifiedUser, modifiedTime
+		) VALUES (
+			#{username}, #{password},
+			#{salt}, #{isDelete},
+			#{createdUser}, #{createdTime},
+			#{modifiedUser}, #{modifiedTime}
+		)
+	</insert>
 	<!-- 根据用户名查询用户数据 -->
 	<!-- User findByUsername(String username) -->
 	<select id="findByUsername"
@@ -13,7 +27,7 @@
 			password, salt,
 			isDelete
 		FROM 
-			login
+			user
 		WHERE 
 			username=#{username}
 	</select>

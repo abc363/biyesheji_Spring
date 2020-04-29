@@ -25,7 +25,7 @@ public abstract class BaseController {
 	 * @return 当前登录的用户id
 	 */
 	protected final Integer getUidFromSession(HttpSession session) {
-		return Integer.valueOf(session.getAttribute("uid").toString());
+		return Integer.valueOf(session.getAttribute("id").toString());
 	}
 	/**
 	 * 统一处理异常

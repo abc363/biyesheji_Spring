@@ -1,13 +1,24 @@
 package cn.WindTech.store.service;
 
+import cn.WindTech.store.service.ex.InsertException;
 import cn.WindTech.store.service.ex.PasswordNotMatchException;
 import cn.WindTech.store.service.ex.UserNotFoundException;
 import cn.WindTech.store.entity.User;
+import cn.WindTech.store.service.ex.UsernameDuplicateException;
 
 /**
  * 处理用户数据的业务层接口
  */
 public interface IUserService {
+	/**
+	 * 用户注册
+	 * @param user 尝试注册的用户数据
+	 * @throws UsernameDuplicateException 用户名被占用时的异常
+	 * @throws InsertException 插入数据失败时的异常
+	 */
+	void reg(User user)
+			throws UsernameDuplicateException,
+			InsertException;
 
 	/**
 	 * 用户登录

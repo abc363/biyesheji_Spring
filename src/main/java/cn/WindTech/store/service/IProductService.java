@@ -11,13 +11,14 @@ import java.util.List;
  * 处理产品数据的业务层接口
  */
 public interface IProductService {
+//    以下是后台系统代码
     /**
      * 将产品数据添加到数据中
      * @param product 产品数据
      * @throws InsertException 插入数据异常
      * @throws UpdateException 更新数据异常
      */
-    void addToPro(Product product) throws InsertException, UpdateException;
+    void addToPro(Product product,String username) throws InsertException, UpdateException;
     /**
      *展示产品数据
      */
@@ -40,15 +41,17 @@ public interface IProductService {
      * @throws UserNotFoundException 产品数据不存在
      * @throws UpdateException 更新数据异常
      */
-    void changeInfo(Product product)
+    void changeInfo(Product product,String username)
+            throws UserNotFoundException,
+            UpdateException;
+    /**
+     * 更新产品图片
+     * @param pro_img 图片路径
+     * @throws UserNotFoundException 图片数据不存在
+     * @throws UpdateException 更新数据异常
+     */
+    void changeImage(Integer pid, String pro_img,String username)
             throws UserNotFoundException,
             UpdateException;
 
-    /**
-     * 更新个人头像
-     * @param pro_img 头像路径
-     * @throws UserNotFoundException 用户数据不存在
-     * @throws UpdateException 更新数据异常
-     */
-    void changeAvatar(Integer pid, String pro_img) throws UserNotFoundException, UpdateException;
 }

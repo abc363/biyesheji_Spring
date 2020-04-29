@@ -1,5 +1,7 @@
 package cn.WindTech.store.service.impl;
 
+import cn.WindTech.store.service.ex.InsertException;
+import cn.WindTech.store.service.ex.UsernameDuplicateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -10,6 +12,10 @@ import cn.WindTech.store.service.IUserService;
 import cn.WindTech.store.service.ex.PasswordNotMatchException;
 import cn.WindTech.store.service.ex.UserNotFoundException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
+
 /**
  * 处理用户数据的业务层实现类
  */
@@ -18,7 +24,42 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired 
 	private UserMapper userMapper;
-	
+	@Override
+	public void reg(User user) throws UsernameDuplicateException, InsertException {
+		// 根据尝试注册的用户名查询用户数据
+		String username = user.getUsername();
+		User result = findByUsername(username);
+		// 检查用户名是否被占用：如果查询到数据，则表示被占用，如果查询结果为null，则表示用户名没有被占用
+		if (result == null) {
+			// 设置is_delete
+			user.setIsDelete(0);
+
+			// 设置4项日志
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			user.setCreatedUser(username);
+			user.setCreatedTime(formatter.format(date));
+			user.setModifiedUser(username);
+			user.setModifiedTime(formatter.format(date));
+
+			// 生成随机盐
+			String salt = UUID.randomUUID().toString().toUpperCase();
+			// 执行密码加密，得到加密后的密码
+			String md5Password = getMd5Password(
+					user.getPassword(), salt);
+			// 将盐和加密后的密码封装到user中
+			user.setPassword(md5Password);
+			user.setSalt(salt);
+
+			// 执行注册
+			insert(user);
+		} else {
+			// 已占用：抛出UsernameDuplicateException
+			throw new UsernameDuplicateException(
+					"注册失败！您尝试注册的用户名(" + username + ")已经被占用！");
+		}
+	}
+
 	@Override
 	public User login(String username, String password) throws UserNotFoundException, PasswordNotMatchException {
 		// 根据参数username查询用户：User findByUsername(String username)
@@ -55,7 +96,20 @@ public class UserServiceImpl implements IUserService {
 				"登录失败！密码错误！");
 		}
 	}
-	
+
+
+
+	/**
+	 * 插入用户数据
+	 * @param user 用户数据
+	 */
+	private void insert(User user) {
+		Integer rows = userMapper.insert(user);
+		if (rows != 1) {
+			throw new InsertException(
+					"插入用户数据时出现未知错误！");
+		}
+	}
 	/**
 	 * 根据用户名查询用户数据
 	 * @param username 用户名
@@ -64,7 +118,6 @@ public class UserServiceImpl implements IUserService {
 	private User findByUsername(String username) {
 		return userMapper.findByUsername(username);
 	}
-	
 
 
 	/**

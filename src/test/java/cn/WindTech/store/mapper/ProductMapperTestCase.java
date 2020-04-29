@@ -30,11 +30,11 @@ public class ProductMapperTestCase {
     @Test
     public void showProduct() {
         List<ProductVO> list = mapper.showProduct();
-        System.err.println("BEGIN:");
-        for (ProductVO data : list) {
-            System.err.println(data);
-        }
-        System.err.println("END.");
+//        System.err.println("BEGIN:");
+//        for (ProductVO data : list) {
+//            System.err.println(data);
+//        }
+//        System.err.println("END.");
     }
 //根据相应id显示产品数据
     @Test
@@ -50,12 +50,7 @@ public class ProductMapperTestCase {
         Integer rows = mapper.deleteByPid(pid);
         System.err.println("rows=" + rows);
     }
-//    统计产品个数
-    @Test
-    public void countByUid() {
-        Integer count = mapper.countProduct();
-        System.err.println("count=" + count);
-    }
+
 //修改相应id的产品数据
 	@Test
 	public void updateInfo() {
@@ -69,12 +64,12 @@ public class ProductMapperTestCase {
 		Integer rows = mapper.updateInfo(pro);
 		System.err.println("rows=" + rows);
 	}
+//	@Test
+//	public void updateImage() {
+//		Integer pid = 1;
+//		String pro_img = "这里应该是图片的路径";
+//		Integer rows = mapper.updateImage(pid, pro_img,"xxxx","2020-04-24 15:25:00");
+//		System.err.println("rows=" + rows);
+//	}
 
-    @Test
-    public void updateAvatar() {
-        Integer pid = 1;
-        String pro_img = "这里应该是头像的路径";
-        Integer rows = mapper.updateAvatar(pid, pro_img);
-        System.err.println("rows=" + rows);
-    }
 }

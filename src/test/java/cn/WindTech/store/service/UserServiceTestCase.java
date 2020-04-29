@@ -15,7 +15,19 @@ public class UserServiceTestCase {
 
 	@Autowired
 	public IUserService service;
-
+	@Test
+	public void reg() {
+		try {
+			User user = new User();
+			user.setUsername("upper");
+			user.setPassword("1234");
+			service.reg(user);
+			System.err.println("OK");
+		} catch (ServiceException e) {
+			System.err.println(e.getClass().getName());
+			System.err.println(e.getMessage());
+		}
+	}
 	@Test
 	public void login() {
 		try {

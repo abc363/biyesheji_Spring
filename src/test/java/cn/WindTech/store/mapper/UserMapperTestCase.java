@@ -13,7 +13,14 @@ public class UserMapperTestCase {
 
 	@Autowired
 	public UserMapper mapper;
-
+	@Test
+	public void insert() {
+		User user = new User();
+		user.setUsername("root");
+		user.setPassword("1234");
+		Integer rows = mapper.insert(user);
+		System.err.println("rows=" + rows);
+	}
 	@Test
 	public void findByUsername() {
 		String username = "root";

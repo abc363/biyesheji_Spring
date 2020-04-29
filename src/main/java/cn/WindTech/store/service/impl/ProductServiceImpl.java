@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -21,12 +22,16 @@ public class ProductServiceImpl implements IProductService {
     private ProductMapper productMapper;
 
     @Override
-    public void addToPro(Product product) throws InsertException, UpdateException {
+    public void addToPro(Product product,String username) throws InsertException, UpdateException {
+        // 4项日志：时间是直接创建对象得到，用户名使用参数username
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        product.setCreatedUser(username);
+        product.setCreatedTime(formatter.format(date));
+        product.setModifiedUser(username);
+        product.setModifiedTime(formatter.format(date));
         // 插入数据：insert(product)
         insert(product);
-        Date now = new Date();
-        product.setModifiedUser("WindTech");
-        product.setModifiedTime(now);
     }
     //    查询产品数据
     @Override
@@ -44,38 +49,26 @@ public class ProductServiceImpl implements IProductService {
     public void delete(Integer pid) throws DeleteException{
         // 执行删除
         deleteByPid(pid);
-        // 获取产品数量
-        Integer count = countProduct();
-        // 判断数量是否为0
-        if (count.equals(0)) {
-            return;
-        }
     }
     @Override
-    public void changeInfo(Product product) throws UserNotFoundException, UpdateException {
+    public void changeInfo(Product product,String username) throws UserNotFoundException, UpdateException {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        product.setModifiedUser(username);
+        product.setModifiedTime(formatter.format(date));
         // 执行产品修改
         updateInfo(product);
-        Date now = new Date();
-        product.setModifiedUser("WindTech");
-        product.setModifiedTime(now);
     }
+
     @Override
-    public void changeAvatar(Integer pid, String pro_img) throws UserNotFoundException, UpdateException {
-        // 执行更新
-        updateAvatar(pid, pro_img);
+    public void changeImage(Integer pid, String pro_img,String username) throws UserNotFoundException, UpdateException {
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                // 执行图片更新
+        updateAvatar(pid, pro_img,username,formatter.format(date));
     }
-    /**
-     * 更新用户头像
-     * @param pid 用户的id
-     * @param pro_img 头像的路径
-     */
-    private void updateAvatar(Integer pid, String pro_img) {
-        Integer rows = productMapper.updateAvatar(pid, pro_img);
-        if (rows != 1) {
-            throw new UpdateException(
-                    "修改图片时出现未知错误！");
-        }
-    }
+
 
     /**
      * 查询产品数据
@@ -113,13 +106,7 @@ public class ProductServiceImpl implements IProductService {
             throw new DeleteException("删除产品时出现未知错误！");
         }
     }
-    /**
-     * 统计产品数据的数量
-     * @return 产品数据的数量
-     */
-    private Integer countProduct() {
-        return productMapper.countProduct();
-    }
+
     /**
      * 更新产品数据
      * @param product 产品数据
@@ -131,4 +118,17 @@ public class ProductServiceImpl implements IProductService {
                     "修改产品数据时出现未知错误！");
         }
     }
+
+    /**
+     * 更新产品图片
+     * @param pid 产品的id
+     * @param pro_img 图片的路径
+     */
+    private void updateAvatar(Integer pid, String pro_img ,String modifiedUser,String modifiedTime){
+        Integer rows = productMapper.updateImage(pid, pro_img,modifiedUser,modifiedTime);
+        if (rows != 1) {
+            throw new UpdateException("修改图片数据时出现未知错误！");
+        }
+    }
+
 }

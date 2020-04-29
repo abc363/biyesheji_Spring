@@ -10,6 +10,7 @@ public class ProductVO implements Serializable {
     private String pro_img;
     private Integer pro_Num;
     private Integer pro_State;
+    private String pro_info;
 
     public Integer getPid() {
         return pid;
@@ -59,6 +60,14 @@ public class ProductVO implements Serializable {
         this.pro_State = pro_State;
     }
 
+    public String getPro_info() {
+        return pro_info;
+    }
+
+    public void setPro_info(String pro_info) {
+        this.pro_info = pro_info;
+    }
+
     @Override
     public String toString() {
         return "ProductVO{" +
@@ -68,6 +77,7 @@ public class ProductVO implements Serializable {
                 ", pro_img='" + pro_img + '\'' +
                 ", pro_Num=" + pro_Num +
                 ", pro_State=" + pro_State +
+                ", pro_info=" + pro_info +
                 '}';
     }
 }

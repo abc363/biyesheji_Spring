@@ -4,9 +4,11 @@ import cn.WindTech.store.entity.Product;
 import cn.WindTech.store.vo.ProductVO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ProductMapper {
+    //以下是后台系统代码
     /**
      * 插入产品数据
      * @param product 产品数据
@@ -27,11 +29,6 @@ public interface ProductMapper {
      * @return 受影响的行数
      */
     Integer deleteByPid(Integer pid);
-    /**
-     * 统计产品的数量
-     * @return 产品数据的数量
-     */
-    Integer countProduct();
 
     /**
      * 修改指定的产品数据
@@ -40,10 +37,14 @@ public interface ProductMapper {
      */
     Integer updateInfo(Product product);
     /**
-     * 更新用户头像
-     * @param pid 用户的id
-     * @param pro_img 头像的路径
+     * 更新产品图片
+     * @param pid 产品的id
+     * @param pro_img 产品图片
      * @return 受影响的行数
      */
-    Integer updateAvatar(@Param("pid") Integer pid,@Param("pro_img") String pro_img);
+    Integer updateImage(
+            @Param("pid") Integer pid,
+            @Param("pro_img") String pro_img,
+            @Param("modifiedUser") String modifiedUser,
+            @Param("modifiedTime") String modifiedTime);
 }

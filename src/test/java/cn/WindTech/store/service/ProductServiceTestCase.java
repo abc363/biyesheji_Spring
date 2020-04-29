@@ -26,7 +26,7 @@ public class ProductServiceTestCase {
             pro.setPro_Type("CS系列");
             pro.setPro_Num(675);
             pro.setPro_State(0);
-            service.addToPro(pro);
+            service.addToPro(pro,"xxx");
             System.err.println("OK.");
         } catch (ServiceException e) {
             System.err.println(e.getClass().getName());
@@ -37,11 +37,11 @@ public class ProductServiceTestCase {
     @Test
     public void getProduct() {
         List<ProductVO> list = service.getProduct();
-        System.err.println("BEGIN:");
-        for (ProductVO data : list) {
-            System.err.println(data);
-        }
-        System.err.println("END.");
+//        System.err.println("BEGIN:");
+//        for (ProductVO data : list) {
+//            System.err.println(data);
+//        }
+//        System.err.println("END.");
     }
     @Test
     public void getByd() {
@@ -66,13 +66,25 @@ public class ProductServiceTestCase {
 	public void changeInfo() {
 		try {
 			Product pro = new Product();
-            pro.setPid(3);
+            pro.setPid(1);
             pro.setPro_info("这里是C2S03模块");
             pro.setPro_State(1);
             pro.setPro_Num(8888);
             pro.setPro_Name("C2S03模块");
             pro.setPro_Type("CS系列");
-			service.changeInfo(pro);
+			service.changeInfo(pro,"xxxx");
+			System.err.println("OK.");
+		} catch (ServiceException e) {
+			System.err.println(e.getClass().getName());
+			System.err.println(e.getMessage());
+		}
+	}
+	@Test
+	public void changeImage() {
+		try {
+			Integer pid = 1;
+			String pro_img = "新图片的路径";
+			service.changeImage(pid, pro_img,"XXX");
 			System.err.println("OK.");
 		} catch (ServiceException e) {
 			System.err.println(e.getClass().getName());
@@ -80,16 +92,5 @@ public class ProductServiceTestCase {
 		}
 	}
 
-    @Test
-    public void changeAvatar() {
-        try {
-            Integer pid = 1;
-            String pro_img = "新头像的路径";
-            service.changeAvatar(pid, pro_img);
-            System.err.println("OK.");
-        } catch (ServiceException e) {
-            System.err.println(e.getClass().getName());
-            System.err.println(e.getMessage());
-        }
-    }
+
 }

@@ -1,6 +1,7 @@
 package cn.WindTech.store.util;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 用于向客户端响应操作结果的类型
@@ -12,6 +13,7 @@ public class ResponseResult<T> implements Serializable {
 
 	private Integer state;
 	private String message;
+	private Map<String, Object> result;
 	private T data;
 
 	public ResponseResult() {
@@ -52,5 +54,4 @@ public class ResponseResult<T> implements Serializable {
 	public void setData(T data) {
 		this.data = data;
 	}
-
 }
