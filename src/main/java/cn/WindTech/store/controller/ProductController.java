@@ -1,62 +1,179 @@
 package cn.WindTech.store.controller;
 
-import cn.WindTech.store.controller.ex.*;
+
 import cn.WindTech.store.entity.Product;
+import cn.WindTech.store.entity.Search;
+import cn.WindTech.store.entity.delProduct;
 import cn.WindTech.store.service.IProductService;
+import cn.WindTech.store.util.FileUtil;
 import cn.WindTech.store.util.ResponseResult;
+import cn.WindTech.store.vo.FileVO;
 import cn.WindTech.store.vo.ProductVO;
-import com.qiniu.util.Auth;
+import cn.WindTech.store.vo.TypeVO;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.model.OSSObject;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.MultipartConfigFactory;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
+import net.sf.json.JSONObject;
 
-@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 @RequestMapping(value = "/products")
+@CrossOrigin
 public class ProductController extends BaseController{
     @Autowired
     private IProductService proService;
-    // 七牛云账号的相关信息
-    private static final String accessKey = "zBwS2zlxzHGc3vA2qJ5x6sAAwJKXOqEmublsXESC";    //访问秘钥
-    private static final String secretKey = "Mn4xRZt6nX4vZJwqW3LhmR9Hhm9ey_kRg6odW-n7";    //授权秘钥
-    private static final String bucket = "webgdufeimages";       //存储空间名称
-    private static final String domain = "q98i9va0h.bkt.clouddn.com";       //外链域名
-    private static String randomFileName="";
 
-
+    //下载附件
+    @RequestMapping(value = "/downFile")
+    @ResponseBody
+    public void downFile(HttpServletRequest request, HttpServletResponse response) {
+        BufferedInputStream input = null;
+        OutputStream outputStream = null;
+        try {
+            String endpoint = FileUtil.ENDPOINT;
+            String accessKeyId = FileUtil.KEYID;
+            String accessKeySecret = FileUtil.KEYSECRET;
+            String yourBucketName = FileUtil.BUCKETNAME;
+            String filePath = request.getParameter("path");
+            filePath = filePath.replaceAll("\\\\", "/");
+            response.reset();
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/x-msdownload");
+            response.addHeader("Content-Disposition", "attachment;filename="
+                    + new String(filePath.getBytes("gb2312"),"ISO8859-1"));
+            System.out.println("endpoint:"+endpoint+"accessKeyId:"+accessKeyId+"accessKeySecret:"
+                    +accessKeySecret+"yourBucketName:"+yourBucketName);
+            OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+            OSSObject object = ossClient.getObject(yourBucketName, filePath);
+            input = new BufferedInputStream(object.getObjectContent());
+            byte[] buffBytes = new byte[1024];
+            outputStream = response.getOutputStream();
+            int read = 0;
+            while ((read = input.read(buffBytes)) != -1) {
+                outputStream.write(buffBytes, 0, read);
+            }
+            outputStream.flush();
+            ossClient.shutdown();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+                if (input != null) {
+                    input.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+//    删除文件
+    @RequestMapping(value="/deleteFile")
+    public ResponseResult<Void> deletePath(@RequestBody delProduct del,HttpSession session) throws IOException {
+        System.out.println("##########");
+        String filePath = del.getFilePath();
+        Integer pid = del.getPid();
+        String fileName = del.getFileName();
+        String endpoint = FileUtil.ENDPOINT;
+        String accessKeyId = FileUtil.KEYID;
+        String accessKeySecret = FileUtil.KEYSECRET;
+        String yourBucketName = FileUtil.BUCKETNAME;
+        System.out.println("endpoint:"+endpoint+"accessKeyId:"+accessKeyId+
+                "accessKeySecret:"+accessKeySecret+"yourBucketName:"+yourBucketName);
+        filePath = filePath.replaceAll("\\\\", "/");
+        System.out.println("##########");
+        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+        ossClient.deleteObject(yourBucketName,filePath);
+        ossClient.shutdown();
+        System.out.println("##########");
+        if(pid!=0){
+            String username = session.getAttribute("username").toString();
+            proService.delFile(del,pid,username,fileName);
+            System.out.println(username);
+        }
+        return new ResponseResult<>(SUCCESS);
+    }
+//上传文件
+    @PostMapping(value="/uploadFile")
+    public ResponseResult<FileVO> getFilePath(@RequestParam("file")MultipartFile file) throws IOException {
+        String endpoint = FileUtil.ENDPOINT;
+        String accessKeyId = FileUtil.KEYID;
+        String accessKeySecret = FileUtil.KEYSECRET;
+        String yourBucketName = FileUtil.BUCKETNAME;
+        String fileName = file.getOriginalFilename();
+        String uuid = UUID.randomUUID().toString();
+        fileName = uuid + fileName;
+        String filePath = new DateTime().toString("yyyy/MM/dd");
+        fileName = filePath + "/" + fileName;
+        InputStream in = file.getInputStream();
+        OSS ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+        ossClient.putObject(yourBucketName, fileName, in);
+        ossClient.shutdown();
+        String path = "http://" +yourBucketName+"."+endpoint+"/"+ fileName;
+        FileVO fileInfo = new FileVO();
+        fileInfo.setName(file.getOriginalFilename());
+        fileInfo.setPath(path);
+        return new ResponseResult<>(SUCCESS,fileInfo);
+    }
     //添加产品数据
     @PostMapping(value="/add")
-    public Map<String, Object> product(Product pro,@RequestParam String suffix, HttpSession session) {
-        // 从session中获取id
-        Integer id = getUidFromSession(session);
-        // 将id封装到pro中
-        pro.setPid(id);
-        // 从session中获取username
+    public ResponseResult<List<ProductVO>> product(@RequestBody Product pro, HttpSession session) {
         String username = session.getAttribute("username").toString();
-        Map<String, Object> result =QiniuUpToken(suffix);
-        String pro_image="http://"+domain+"/"+randomFileName;
-        pro.setPro_img(pro_image);
         proService.addToPro(pro,username);
         // 返回成功
-        return result;
+        return new ResponseResult<>(SUCCESS);
+    }
+    // 展示分页产品数据
+    @GetMapping("/show")
+    public ResponseResult<JSONObject> getProduct(@RequestParam("startPage")Integer startPage,
+                                                       @RequestParam("pageSize")Integer pageSize) {
+        // 调用业务层对象执行
+        List<ProductVO> data = proService.getProduct(startPage,pageSize);
+        Integer totalNum = proService.count();
+        JSONObject result= new JSONObject();
+        result.put("tableData",data);
+        result.put("totalNum",totalNum);
+        // 返回
+        return new ResponseResult<>(SUCCESS, result);
     }
     // 展示产品数据
-    @GetMapping("/show")
-    public ResponseResult<List<ProductVO>> getProduct() {
+    @GetMapping("/showAll")
+    public ResponseResult<List<ProductVO>> getAllProduct(Product product) {
         // 调用业务层对象执行
-        List<ProductVO> data = proService.getProduct();
-        System.err.println(data);
+        List<ProductVO> data = proService.getAllProduct(product);
         // 返回
         return new ResponseResult<>(SUCCESS, data);
+    }
+    // 模糊搜索产品数据
+    @RequestMapping("/search")
+    public ResponseResult<JSONObject> searchProduct(@RequestBody Search search) {
+        String pro_State = search.getPro_State();
+        String pro_Type = search.getPro_Type();
+        String pro_Name = search.getPro_Name();
+        Integer startPage = search.getStartPage();
+        Integer pageSize = search.getPageSize();
+        // 调用业务层对象执行
+        List<ProductVO> data = proService.searchProduct(pro_Name,pro_State,pro_Type,startPage,pageSize);
+        Integer totalNum = proService.toSearchCount(pro_Name,pro_State,pro_Type);
+        JSONObject result = new JSONObject();
+        result.put("tableData",data);
+        result.put("totalNum",totalNum);
+        // 返回
+        return new ResponseResult<>(SUCCESS, result);
     }
 //    显示相应id的产品数据
     @GetMapping("/{pid}/showPro")
@@ -68,68 +185,31 @@ public class ProductController extends BaseController{
     }
     //删除特定id的数据
     @RequestMapping("/{pid}/delete")
-    public ResponseResult<Void> delete(@PathVariable("pid") Integer pid) {
+    public ResponseResult<Void> delete(@PathVariable("pid") Integer pid,HttpSession session) {
         // 执行
+        String username = session.getAttribute("username").toString();
         proService.delete(pid);
+        proService.updateTime(username);
         // 返回
         return new ResponseResult<>(SUCCESS);
     }
 //    修改特定的产品数据
     @RequestMapping("/{pid}/change_info")
-    public ResponseResult<Void> changeInfo(Product product, @PathVariable("pid") Integer pid, HttpSession session) {
+    public ResponseResult<Void> changeInfo(@RequestBody Product product, @PathVariable("pid") Integer pid, HttpSession session) throws IOException {
         // 执行更新：
         product.setPid(pid);
+//        System.out.println(session.getAttribute("username").toString());
         String username = session.getAttribute("username").toString();
         proService.changeInfo(product,username);
         // 返回成功
         return new ResponseResult<>(SUCCESS);
     }
-    //    修改特定的产品图片
-    @PostMapping(value="/{pid}/changeImage")
-    public Map<String, Object> changeImage(@RequestParam String suffix,@PathVariable("pid") Integer pid,HttpSession session) {
-        Map<String, Object> result =QiniuUpToken(suffix);
-        String pro_image="http://"+domain+"/"+randomFileName;
-        String username = session.getAttribute("username").toString();
-        proService.changeImage(pid, pro_image,username);
+    //    返回系列
+    @RequestMapping("/showType")
+    public ResponseResult<List<TypeVO>> showType() throws IOException {
+        List<TypeVO> type= proService.getType();
         // 返回成功
-        return result;
+        return new ResponseResult<>(SUCCESS,type);
     }
-
-
-
-    public Map<String, Object> QiniuUpToken(String suffix) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        try {
-            //验证七牛云身份是否通过
-            Auth auth = Auth.create(accessKey, secretKey);
-            //生成凭证
-            String upToken = auth.uploadToken(bucket);
-            result.put("token", upToken);
-            //存入外链默认域名，用于拼接完整的资源外链路径
-            result.put("domain", domain);
-            // 是否可以上传的图片格式
-            boolean flag = false;
-            String[] imgTypes = new String[]{"jpg","jpeg","bmp","gif","png"};
-            for(String fileSuffix : imgTypes) {
-                if(suffix.substring(suffix.lastIndexOf(".") + 1).equalsIgnoreCase(fileSuffix)) {
-                    flag = true;
-                    break;
-                }
-            }
-            if(!flag) {
-                throw new Exception("图片：" + suffix + " 上传格式不对！");
-            }
-            //生成实际路径名
-            randomFileName = UUID.randomUUID().toString() + suffix;
-            result.put("imgUrl", randomFileName);
-            result.put("success", 1);
-        } catch (Exception e) {
-            result.put("message", "获取凭证失败，"+e.getMessage());
-            result.put("success", 0);
-        } finally {
-            return result;
-        }
-    }
-
 
 }

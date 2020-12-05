@@ -10,14 +10,22 @@
 		INSERT INTO product (
 			pro_Name,pro_Type,
 			pro_Num,pro_State,
-			pro_img,pro_info,
+			pro_fontTiltOne,pro_info,
+			pro_file, pro_finger,
+			pro_driver, pro_video,
+			pro_fontTiltTwo,pro_backTiltOne,
+			pro_backTiltTwo,pro_font,pro_back,
 			createdUser, createdTime,
 			modifiedUser, modifiedTime
 		) VALUE (
 			#{pro_Name},
 			#{pro_Type},
 			#{pro_Num}, #{pro_State},
-			#{pro_img}, #{pro_info},
+			#{pro_fontTiltOne}, #{pro_info},
+			#{pro_file}, #{pro_finger},
+			#{pro_driver}, #{pro_video},
+		    #{pro_fontTiltTwo},#{pro_backTiltOne},
+			#{pro_backTiltTwo},#{pro_font},#{pro_back},
 			#{createdUser}, #{createdTime},
 			#{modifiedUser}, #{modifiedTime}
 		)
@@ -30,16 +38,39 @@
 			*
 		FROM
 			product
+		Limit #{startPage},#{pageSize}
+	</select>
+	<!-- 展示产品数据 -->
+	<!--  List<ProductVO> showAllProduct(); -->
+	<select id="showAllProduct"
+			resultType="cn.WindTech.store.vo.ProductVO">
+		SELECT
+			*
+		FROM
+			product
+		where
+			pro_State='1'
+	</select>
+	<select id="searchProduct"
+			resultType="cn.WindTech.store.vo.ProductVO">
+		SELECT
+			*
+		FROM
+			product
+		where
+			pro_Name like concat('%',#{pro_Name},'%')
+		and
+			pro_State like concat('%',#{pro_State},'%')
+		and
+			pro_Type like concat('%',#{pro_Type},'%')
+		Limit #{startPage},#{pageSize}
 	</select>
 	<!-- 展示相应id的产品数据 -->
 	<!--  Product findByPId(Integer pid); -->
 	<select id="findByPId"
 			resultType="cn.WindTech.store.entity.Product">
 		SELECT
-			pid,
-			pro_Name,pro_Type,
-			pro_Num,pro_State,
-			pro_img,pro_info
+			*
 		FROM
 			product
 		WHERE
@@ -61,27 +92,66 @@
 				pro_Num=#{pro_Num},
 				pro_State=#{pro_State},
 				pro_info=#{pro_info},
+				pro_fontTiltOne=#{pro_fontTiltOne},
+				pro_file=#{pro_file},
+				pro_finger=#{pro_finger},
+				pro_driver=#{pro_driver},
+				pro_video=#{pro_video}, pro_fontTiltTwo=#{pro_fontTiltTwo},
+				pro_backTiltOne=#{pro_backTiltOne},pro_backTiltTwo=#{pro_backTiltTwo},
+				pro_font=#{pro_font},pro_back=#{pro_back},
 				modifiedUser=#{modifiedUser},modifiedTime=#{modifiedTime}
 			WHERE
 				pid=#{pid}
 	</update>
 
-	<!-- 更新产品图片 -->
-	<!--Integer updateImage(-->
-	<!--@Param("pid") Integer pid,-->
-	<!--@Param("pro_img") String pro_img,-->
-	<!--@Param("modifiedUser") String modifiedUser,-->
-	<!--@Param("modifiedTime") String modifiedTime);-->
-	<update id="updateImage">
+	<!-- 删除相应id的文件路径和文件名 -->
+	<update id="deleteFile">
 		UPDATE
 			product
 		SET
-			pro_img=#{pro_img},
+			${fileName}=null,
 			modifiedUser=#{modifiedUser},
 			modifiedTime=#{modifiedTime}
 		WHERE
 			pid=#{pid}
 	</update>
+    <!-- 更新时间 -->
+    <update id="updateTime">
+        UPDATE
+        user
+        SET
+        modifiedTime=#{modifiedTime}
+        WHERE
+        username=#{username}
+    </update>
+
+	<select id="countByPid" resultType="Integer">
+		SELECT
+		COUNT(1) count
+		FROM product
+	</select>
+
+	<select id="countSearch" resultType="Integer">
+		SELECT
+		COUNT(1) count
+		FROM product
+		where
+		pro_Name like concat('%',#{pro_Name},'%')
+		and
+		pro_State like concat('%',#{pro_State},'%')
+		and
+		pro_Type like concat('%',#{pro_Type},'%')
+	</select>
+
+	<!-- 展示产品类型 -->
+	<select id="showType"
+			resultType="cn.WindTech.store.vo.TypeVO">
+		SELECT
+			pro_Type
+		FROM
+			product
+		group by pro_Type
+	</select>
 
 </mapper>
 

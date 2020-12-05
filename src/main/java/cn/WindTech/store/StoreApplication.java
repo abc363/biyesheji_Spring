@@ -24,6 +24,15 @@ public class StoreApplication extends SpringBootServletInitializer{
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(StoreApplication.class);
 	}
+	@Bean
+	public MultipartConfigElement multipartConfigElement() {
+		MultipartConfigFactory factory = new MultipartConfigFactory();
+		//允许上传的文件最大值
+		factory.setMaxFileSize("200MB"); //KB,MB
+		/// 设置总上传数据总大小
+		factory.setMaxRequestSize("200MB");
+		return factory.createMultipartConfig();
+	}
 
 }
 

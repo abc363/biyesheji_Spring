@@ -2,18 +2,18 @@ package cn.WindTech.store.entity;
 
 public class User extends BaseEntity{
 	private static final long serialVersionUID = 1L;
-	private Integer id;
+	private Integer uid;
 	private String username;
 	private String password;
 	private String salt;
 	private Integer isDelete;
 
-	public Integer getId() {
-		return id;
+	public Integer getUid() {
+		return uid;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUid(Integer uid) {
+		this.uid = uid;
 	}
 
 	public String getUsername() {
@@ -51,7 +51,7 @@ public class User extends BaseEntity{
 	@Override
 	public String toString() {
 		return "User{" +
-				"id=" + id +
+				"uid=" + uid +
 				", username='" + username + '\'' +
 				", password='" + password + '\'' +
 				", salt='" + salt + '\'' +

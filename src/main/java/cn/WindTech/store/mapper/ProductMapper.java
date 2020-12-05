@@ -1,7 +1,10 @@
 package cn.WindTech.store.mapper;
 
 import cn.WindTech.store.entity.Product;
+import cn.WindTech.store.entity.User;
+import cn.WindTech.store.entity.delProduct;
 import cn.WindTech.store.vo.ProductVO;
+import cn.WindTech.store.vo.TypeVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -18,7 +21,16 @@ public interface ProductMapper {
     /**
      *展示产品数据
      */
-    List<ProductVO> showProduct();
+    List<ProductVO> showProduct(@Param("startPage")Integer startPage,@Param("pageSize") Integer pageSize);
+
+    List<ProductVO> showAllProduct(Product product);
+
+    List<ProductVO> searchProduct(@Param("pro_Name")String pro_Name, @Param("pro_State") String pro_State,
+                                  @Param("pro_Type") String pro_Type,@Param("startPage")Integer startPage,
+                                  @Param("pageSize")Integer pageSize);
+
+    Integer countSearch(@Param("pro_Name")String pro_Name,
+                                  @Param("pro_State") String pro_State,@Param("pro_Type") String pro_Type);
     /**
      *根据id展示产品数据
      */
@@ -36,15 +48,16 @@ public interface ProductMapper {
      * @return 受影响的行数
      */
     Integer updateInfo(Product product);
+    Integer updateTime(@Param("username")String username,
+                       @Param("modifiedTime")String modifiedTime);
+
     /**
-     * 更新产品图片
-     * @param pid 产品的id
-     * @param pro_img 产品图片
+     * 根据id删除文件路径和文件名
      * @return 受影响的行数
      */
-    Integer updateImage(
-            @Param("pid") Integer pid,
-            @Param("pro_img") String pro_img,
-            @Param("modifiedUser") String modifiedUser,
-            @Param("modifiedTime") String modifiedTime);
+    Integer deleteFile(delProduct del);
+
+
+    Integer countByPid();
+    List<TypeVO> showType();
 }

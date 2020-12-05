@@ -1,10 +1,11 @@
 package cn.WindTech.store.service;
 
 import cn.WindTech.store.entity.Product;
+import cn.WindTech.store.entity.delProduct;
 import cn.WindTech.store.service.ex.*;
 import cn.WindTech.store.vo.ProductVO;
+import cn.WindTech.store.vo.TypeVO;
 
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 /**
@@ -22,7 +23,19 @@ public interface IProductService {
     /**
      *展示产品数据
      */
-    List<ProductVO> getProduct();
+    List<ProductVO> getProduct(Integer startPage,Integer pageSize);
+    /**
+     *展示产品数据
+     */
+    List<ProductVO> getAllProduct(Product product);
+    /**
+     *展示产品数据
+     */
+    List<ProductVO> searchProduct(String pro_Name,String pro_State,String pro_Type,Integer startPage,Integer pageSize);
+    /**
+     *展示产品数据
+     */
+    Integer toSearchCount(String pro_Name,String pro_State,String pro_Type);
     /**
      * 根据产品id查询数据
      * @param pid 产品id
@@ -44,14 +57,14 @@ public interface IProductService {
     void changeInfo(Product product,String username)
             throws UserNotFoundException,
             UpdateException;
+
+    void delFile(delProduct del, Integer pid, String username, String fileName) throws DeleteException;
+    void  updateTime(String username);
+
+    Integer count();
     /**
-     * 更新产品图片
-     * @param pro_img 图片路径
-     * @throws UserNotFoundException 图片数据不存在
-     * @throws UpdateException 更新数据异常
+     *展示产品类型
      */
-    void changeImage(Integer pid, String pro_img,String username)
-            throws UserNotFoundException,
-            UpdateException;
+    List<TypeVO> getType();
 
 }

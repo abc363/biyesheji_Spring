@@ -26,15 +26,24 @@ INSERT INTO login VALUES
 
 （6）后台主页已被拦截登录
 （7）创建product表
-create table product
+create table test
 (
      pid int auto_increment primary key,
        pro_Name VARCHAR(50) not null,
        pro_Type VARCHAR(50) not null,
        pro_Num INT(40) not null,
-       pro_State INT(10) not null,
-       pro_img VARCHAR(120),
-       pro_info VARCHAR(600),
+       pro_State VARCHAR(100) not null,
+       pro_fontTiltOne VARCHAR(300),
+       pro_file VARCHAR(300),
+       pro_info VARCHAR(800),
+       pro_finger VARCHAR(300),
+       pro_driver VARCHAR(300),
+       pro_video VARCHAR(300),
+       pro_fontTiltTwo VARCHAR(300),
+       pro_backTiltOne VARCHAR(300),
+       pro_backTiltTwo VARCHAR(300),
+       pro_font VARCHAR(300),
+       pro_back VARCHAR(300),
         createdUser VARCHAR(50),
         createdTime  VARCHAR(80),
         modifiedUser VARCHAR(50),

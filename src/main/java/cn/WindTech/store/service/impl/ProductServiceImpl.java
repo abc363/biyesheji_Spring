@@ -1,10 +1,12 @@
 package cn.WindTech.store.service.impl;
 
 import cn.WindTech.store.entity.Product;
+import cn.WindTech.store.entity.delProduct;
 import cn.WindTech.store.mapper.ProductMapper;
 import cn.WindTech.store.service.IProductService;
 import cn.WindTech.store.service.ex.*;
 import cn.WindTech.store.vo.ProductVO;
+import cn.WindTech.store.vo.TypeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +37,24 @@ public class ProductServiceImpl implements IProductService {
     }
     //    查询产品数据
     @Override
-    public List<ProductVO> getProduct() {
-        return showProduct();
+    public List<ProductVO> getProduct(Integer startPage,Integer pageSize) {
+        return showProduct(startPage,pageSize);
     }
-
+    //    查询产品数据
+    @Override
+    public List<ProductVO> getAllProduct(Product product) {
+        return showAllProduct(product);
+    }
+    //    查询产品数据
+    @Override
+    public List<ProductVO> searchProduct(String pro_Name,String pro_State,String pro_Type,Integer startPage,Integer pageSize) {
+        return searchPro(pro_Name,pro_State,pro_Type,startPage,pageSize);
+    }
+    //    查询产品数据
+    @Override
+    public Integer toSearchCount(String pro_Name,String pro_State,String pro_Type) {
+        return searchCount(pro_Name,pro_State,pro_Type);
+    }
     @Override
     public Product getByPId(Integer pid) {
         return findByPId(pid);
@@ -51,6 +67,28 @@ public class ProductServiceImpl implements IProductService {
         deleteByPid(pid);
     }
     @Override
+    public Integer count(){
+        return countNum();
+    }
+
+    //    删除文件数据
+    @Override
+    @Transactional
+    public void delFile(delProduct del, Integer pid, String username, String fileName) throws DeleteException{
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        del.setPid(pid);
+        del.setFileName(fileName);
+        del.setModifiedUser(username);
+        del.setModifiedTime(formatter.format(date));
+        // 执行删除
+        deleteFilePid(del);
+    }
+
+    /**
+     * 修改产品数据
+     */
+    @Override
     public void changeInfo(Product product,String username) throws UserNotFoundException, UpdateException {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -59,22 +97,50 @@ public class ProductServiceImpl implements IProductService {
         // 执行产品修改
         updateInfo(product);
     }
-
     @Override
-    public void changeImage(Integer pid, String pro_img,String username) throws UserNotFoundException, UpdateException {
-
+    public void updateTime(String username) throws UserNotFoundException, UpdateException {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                // 执行图片更新
-        updateAvatar(pid, pro_img,username,formatter.format(date));
+        // 执行产品修改
+        updateServiceTime(username, formatter.format(date));
     }
+    @Override
+    public List<TypeVO> getType() throws UserNotFoundException, UpdateException {
+        return showType();
+    }
+
+
 
 
     /**
      * 查询产品数据
      */
-    private List<ProductVO> showProduct() {
-        return productMapper.showProduct();
+    private List<ProductVO> showProduct(Integer startPage,Integer pageSize) {
+        return productMapper.showProduct(startPage,pageSize);
+    }
+    /**
+     * 查询产品类型
+     */
+    private List<TypeVO> showType() {
+        return productMapper.showType();
+    }
+    /**
+     * 查询产品数据
+     */
+    private List<ProductVO> showAllProduct(Product product) {
+        return productMapper.showAllProduct(product);
+    }
+    /**
+     * 查询产品数据
+     */
+    private List<ProductVO> searchPro(String pro_Name,String pro_State,String pro_Type,Integer startPage,Integer pageSize) {
+        return productMapper.searchProduct(pro_Name,pro_State,pro_Type,startPage,pageSize);
+    }
+    private Integer countNum(){
+         return productMapper.countByPid();
+    }
+    private Integer searchCount(String pro_Name,String pro_State,String pro_Type){
+        return productMapper.countSearch(pro_Name,pro_State,pro_Type);
     }
     /**
      * 根据产品id查询匹配的数据
@@ -106,6 +172,12 @@ public class ProductServiceImpl implements IProductService {
             throw new DeleteException("删除产品时出现未知错误！");
         }
     }
+    private void deleteFilePid(delProduct del) {
+        Integer rows = productMapper.deleteFile(del);
+        if (rows != 1) {
+            throw new DeleteException("删除文件时出现未知错误！");
+        }
+    }
 
     /**
      * 更新产品数据
@@ -119,15 +191,11 @@ public class ProductServiceImpl implements IProductService {
         }
     }
 
-    /**
-     * 更新产品图片
-     * @param pid 产品的id
-     * @param pro_img 图片的路径
-     */
-    private void updateAvatar(Integer pid, String pro_img ,String modifiedUser,String modifiedTime){
-        Integer rows = productMapper.updateImage(pid, pro_img,modifiedUser,modifiedTime);
+    private void updateServiceTime(String username,String time) {
+        Integer rows = productMapper.updateTime(username,time);
         if (rows != 1) {
-            throw new UpdateException("修改图片数据时出现未知错误！");
+            throw new UpdateException(
+                    "修改数据时出现未知错误！");
         }
     }
 

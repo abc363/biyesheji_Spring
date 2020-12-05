@@ -15,60 +15,53 @@ import java.util.List;
 public class ProductMapperTestCase {
     @Autowired
     public ProductMapper mapper;
-//插入产品数据
-    @Test
-    public void insert() {
-        Product pro = new Product();
-        pro.setPro_Name("C2S02模块");
-        pro.setPro_Type("CS系列");
-        pro.setPro_Num(242);
-        pro.setPro_State(1);
-        Integer rows = mapper.insert(pro);
-        System.err.println("rows="+rows );
-    }
-//显示产品数据
-    @Test
-    public void showProduct() {
-        List<ProductVO> list = mapper.showProduct();
-//        System.err.println("BEGIN:");
-//        for (ProductVO data : list) {
-//            System.err.println(data);
-//        }
-//        System.err.println("END.");
-    }
-//根据相应id显示产品数据
-    @Test
-    public void findByAid() {
-        Integer pid = 3;
-        Product data = mapper.findByPId(pid);
-        System.err.println(data);
-    }
-//    根据产品pid删除数据
-    @Test
-    public void deleteByPid() {
-        Integer pid = 3;
-        Integer rows = mapper.deleteByPid(pid);
-        System.err.println("rows=" + rows);
-    }
-
-//修改相应id的产品数据
-	@Test
-	public void updateInfo() {
-		Product pro= new Product();
-		pro.setPid(1);
-		pro.setPro_info("这里是C2S01模块");
-		pro.setPro_State(1);
-		pro.setPro_Num(455);
-        pro.setPro_Name("C2S01模块");
-        pro.setPro_Type("C2系列");
-		Integer rows = mapper.updateInfo(pro);
-		System.err.println("rows=" + rows);
-	}
+////插入产品数据
+//    @Test
+//    public void insert() {
+//        Product pro = new Product();
+//        pro.setPro_Name("C2S02模块");
+//        pro.setPro_Type("CS系列");
+//        pro.setPro_Num(242);
+//        pro.setPro_State(1);
+//        Integer rows = mapper.insert(pro);
+//        System.err.println("rows="+rows );
+//    }
+////显示产品数据
+//    @Test
+//    public void showProduct() {
+//        List<ProductVO> list = mapper.showProduct();
+////        System.err.println("BEGIN:");
+////        for (ProductVO data : list) {
+////            System.err.println(data);
+////        }
+////        System.err.println("END.");
+//    }
+////根据相应id显示产品数据
+//    @Test
+//    public void findByAid() {
+//        Integer pid = 3;
+//        Product data = mapper.findByPId(pid);
+//        System.err.println(data);
+//    }
+////    根据产品pid删除数据
+//    @Test
+//    public void deleteByPid() {
+//        Integer pid = 3;
+//        Integer rows = mapper.deleteByPid(pid);
+//        System.err.println("rows=" + rows);
+//    }
+//
+////修改相应id的产品数据
 //	@Test
-//	public void updateImage() {
-//		Integer pid = 1;
-//		String pro_img = "这里应该是图片的路径";
-//		Integer rows = mapper.updateImage(pid, pro_img,"xxxx","2020-04-24 15:25:00");
+//	public void updateInfo() {
+//		Product pro= new Product();
+//		pro.setPid(1);
+//		pro.setPro_info("这里是C2S01模块");
+//		pro.setPro_State(1);
+//		pro.setPro_Num(455);
+//        pro.setPro_Name("C2S01模块");
+//        pro.setPro_Type("C2系列");
+//		Integer rows = mapper.updateInfo(pro);
 //		System.err.println("rows=" + rows);
 //	}
 
