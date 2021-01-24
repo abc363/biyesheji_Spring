@@ -1,7 +1,7 @@
 package cn.WindTech.store.vo;
 
 import java.io.Serializable;
-
+// 产品返回列表
 public class ProductVO implements Serializable {
     private static final long serialVersionUID = -1375921507047753775L;
     private Integer pid;
@@ -14,6 +14,8 @@ public class ProductVO implements Serializable {
     private String pro_fileName;
     private String pro_finger;
     private String pro_fingerName;
+    private String pro_manual;
+    private String pro_manualName;
     private String pro_driver;
     private String pro_driverName;
     private String pro_info;
@@ -105,6 +107,22 @@ public class ProductVO implements Serializable {
         this.pro_fingerName = pro_fingerName;
     }
 
+    public String getPro_manual() {
+        return pro_manual;
+    }
+
+    public void setPro_manual(String pro_manual) {
+        this.pro_manual = pro_manual;
+    }
+
+    public String getPro_manualName() {
+        return pro_manualName;
+    }
+
+    public void setPro_manualName(String pro_manualName) {
+        this.pro_manualName = pro_manualName;
+    }
+
     public String getPro_driver() {
         return pro_driver;
     }
@@ -192,12 +210,14 @@ public class ProductVO implements Serializable {
                 ", pro_Name='" + pro_Name + '\'' +
                 ", pro_Type='" + pro_Type + '\'' +
                 ", pro_Num=" + pro_Num +
-                ", pro_State=" + pro_State +
+                ", pro_State='" + pro_State + '\'' +
                 ", pro_fontTiltOne='" + pro_fontTiltOne + '\'' +
                 ", pro_file='" + pro_file + '\'' +
                 ", pro_fileName='" + pro_fileName + '\'' +
                 ", pro_finger='" + pro_finger + '\'' +
                 ", pro_fingerName='" + pro_fingerName + '\'' +
+                ", pro_manual='" + pro_manual + '\'' +
+                ", pro_manualName='" + pro_manualName + '\'' +
                 ", pro_driver='" + pro_driver + '\'' +
                 ", pro_driverName='" + pro_driverName + '\'' +
                 ", pro_info='" + pro_info + '\'' +

@@ -28,9 +28,9 @@ public class StoreApplication extends SpringBootServletInitializer{
 	public MultipartConfigElement multipartConfigElement() {
 		MultipartConfigFactory factory = new MultipartConfigFactory();
 		//允许上传的文件最大值
-		factory.setMaxFileSize("200MB"); //KB,MB
+		factory.setMaxFileSize("500MB"); //KB,MB
 		/// 设置总上传数据总大小
-		factory.setMaxRequestSize("200MB");
+		factory.setMaxRequestSize("500MB");
 		return factory.createMultipartConfig();
 	}
 

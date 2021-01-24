@@ -3,7 +3,7 @@ package cn.WindTech.store.util;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
+// 文件上传信息
 @Component
 public class FileUtil implements InitializingBean {
 

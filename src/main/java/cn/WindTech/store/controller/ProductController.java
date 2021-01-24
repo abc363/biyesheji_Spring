@@ -84,7 +84,6 @@ public class ProductController extends BaseController{
 //    删除文件
     @RequestMapping(value="/deleteFile")
     public ResponseResult<Void> deletePath(@RequestBody delProduct del,HttpSession session) throws IOException {
-        System.out.println("##########");
         String filePath = del.getFilePath();
         Integer pid = del.getPid();
         String fileName = del.getFileName();
@@ -92,16 +91,13 @@ public class ProductController extends BaseController{
         String accessKeyId = FileUtil.KEYID;
         String accessKeySecret = FileUtil.KEYSECRET;
         String yourBucketName = FileUtil.BUCKETNAME;
-        System.out.println("endpoint:"+endpoint+"accessKeyId:"+accessKeyId+
-                "accessKeySecret:"+accessKeySecret+"yourBucketName:"+yourBucketName);
         filePath = filePath.replaceAll("\\\\", "/");
-        System.out.println("##########");
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         ossClient.deleteObject(yourBucketName,filePath);
         ossClient.shutdown();
-        System.out.println("##########");
         if(pid!=0){
-            String username = session.getAttribute("username").toString();
+//            String username = session.getAttribute("username").toString();
+            String username = "windiot";
             proService.delFile(del,pid,username,fileName);
             System.out.println(username);
         }
@@ -132,7 +128,8 @@ public class ProductController extends BaseController{
     //添加产品数据
     @PostMapping(value="/add")
     public ResponseResult<List<ProductVO>> product(@RequestBody Product pro, HttpSession session) {
-        String username = session.getAttribute("username").toString();
+//        String username = session.getAttribute("username").toString();
+        String username = "windiot";
         proService.addToPro(pro,username);
         // 返回成功
         return new ResponseResult<>(SUCCESS);
@@ -150,7 +147,7 @@ public class ProductController extends BaseController{
         // 返回
         return new ResponseResult<>(SUCCESS, result);
     }
-    // 展示产品数据
+    // 展示所有产品数据
     @GetMapping("/showAll")
     public ResponseResult<List<ProductVO>> getAllProduct(Product product) {
         // 调用业务层对象执行
@@ -187,7 +184,8 @@ public class ProductController extends BaseController{
     @RequestMapping("/{pid}/delete")
     public ResponseResult<Void> delete(@PathVariable("pid") Integer pid,HttpSession session) {
         // 执行
-        String username = session.getAttribute("username").toString();
+//        String username = session.getAttribute("username").toString();
+        String username = "windiot";
         proService.delete(pid);
         proService.updateTime(username);
         // 返回
@@ -199,8 +197,10 @@ public class ProductController extends BaseController{
         // 执行更新：
         product.setPid(pid);
 //        System.out.println(session.getAttribute("username").toString());
-        String username = session.getAttribute("username").toString();
+//        String username = session.getAttribute("username").toString();
+        String username = "windiot";
         proService.changeInfo(product,username);
+
         // 返回成功
         return new ResponseResult<>(SUCCESS);
     }

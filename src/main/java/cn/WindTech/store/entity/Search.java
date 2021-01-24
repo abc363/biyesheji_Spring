@@ -1,5 +1,5 @@
 package cn.WindTech.store.entity;
-
+//搜索产品基类
 public class Search {
     private static final long serialVersionUID = 1L;
     private String pro_State;

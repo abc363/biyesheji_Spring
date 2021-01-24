@@ -19,16 +19,22 @@ public interface ProductMapper {
      */
     Integer insert(Product product);
     /**
-     *展示产品数据
+     *展示不同类型产品数据
      */
     List<ProductVO> showProduct(@Param("startPage")Integer startPage,@Param("pageSize") Integer pageSize);
-
+    /**
+     *展示所有产品数据
+     */
     List<ProductVO> showAllProduct(Product product);
-
+    /**
+     *搜索产品数据
+     */
     List<ProductVO> searchProduct(@Param("pro_Name")String pro_Name, @Param("pro_State") String pro_State,
                                   @Param("pro_Type") String pro_Type,@Param("startPage")Integer startPage,
                                   @Param("pageSize")Integer pageSize);
-
+    /**
+     *返回搜索数据条目
+     */
     Integer countSearch(@Param("pro_Name")String pro_Name,
                                   @Param("pro_State") String pro_State,@Param("pro_Type") String pro_Type);
     /**
@@ -48,6 +54,7 @@ public interface ProductMapper {
      * @return 受影响的行数
      */
     Integer updateInfo(Product product);
+//    修改时间
     Integer updateTime(@Param("username")String username,
                        @Param("modifiedTime")String modifiedTime);
 
@@ -56,8 +63,8 @@ public interface ProductMapper {
      * @return 受影响的行数
      */
     Integer deleteFile(delProduct del);
-
-
+//   所有产品的数目
     Integer countByPid();
+//    展示产品的所有类型
     List<TypeVO> showType();
 }

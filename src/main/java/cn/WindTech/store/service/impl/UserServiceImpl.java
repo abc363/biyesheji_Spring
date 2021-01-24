@@ -23,6 +23,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired 
 	private UserMapper userMapper;
+//	注册功能
 	@Override
 	public void reg(User user) throws UsernameDuplicateException, InsertException {
 		// 根据尝试注册的用户名查询用户数据
@@ -32,7 +33,6 @@ public class UserServiceImpl implements IUserService {
 		if (result == null) {
 			// 设置is_delete
 			user.setIsDelete(0);
-
 			// 设置4项日志
 			Date date = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -48,7 +48,7 @@ public class UserServiceImpl implements IUserService {
 					"注册失败！您尝试注册的用户名(" + username + ")已经被占用！");
 		}
 	}
-
+//	登录功能
 	@Override
 	public User login(User user) throws UserNotFoundException, PasswordNotMatchException {
 		// 根据参数username查询用户：User findByUsername(String username)
@@ -61,14 +61,12 @@ public class UserServiceImpl implements IUserService {
 			throw new UserNotFoundException(
 				"登录失败！尝试登录的用户不存在！");
 		}
-
 		// 判断is_delete是否标记为已删除：isDelete属性值是否为1
 		if (result.getIsDelete().equals(1)) {
 			// 是：抛出UserNotFoundException
 			throw new UserNotFoundException(
 				"登录失败！尝试登录的用户不存在！");
 		}
-
 		if (result.getPassword().equals(password)) {
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -85,6 +83,7 @@ public class UserServiceImpl implements IUserService {
 				"登录失败！密码错误！");
 		}
 	}
+//	修改密码
 	@Override
 	public void changePassword(Integer uid, String username, String oldPassword, String newPassword)
 			throws UserNotFoundException, PasswordNotMatchException, UpdateException {
@@ -103,7 +102,6 @@ public class UserServiceImpl implements IUserService {
 			throw new UserNotFoundException(
 					"修改密码失败！尝试访问的用户不存在！");
 		}
-
 		if (result.getPassword().equals(oldPassword)) {
 			// 是：抛出PasswordNotMatchException
 			throw new PasswordNotMatchException(
@@ -126,12 +124,11 @@ public class UserServiceImpl implements IUserService {
         updateTime(user);
 		deleteByUid(uid);
 	}
+//	获取所有用户
 	@Override
 	public List<User> getAllUser(User user) {
 		return showAllUser(user);
 	}
-	//    查询产品数据
-
 	/**
 	 * 插入用户数据
 	 * @param user 用户数据
@@ -166,6 +163,7 @@ public class UserServiceImpl implements IUserService {
 					"修改用户数据时出现未知错误！");
 		}
 	}
+//	修改时间
     private void updateTime(User user) {
         Integer rows = userMapper.updateTime(user);
         if (rows != 1) {
@@ -181,7 +179,7 @@ public class UserServiceImpl implements IUserService {
 	private User findByUid(Integer uid) {
 		return userMapper.findByUid(uid);
 	}
-
+//	删除用户数据
 	private void deleteByUid(Integer uid) {
 		Integer rows = userMapper.deleteByUid(uid);
 		if (rows != 1) {
@@ -189,7 +187,7 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 	/**
-	 * 查询用户数据
+	 * 查询所有用户数据
 	 */
 	private List<User> showAllUser(User user) {
 		return userMapper.showUser(user);

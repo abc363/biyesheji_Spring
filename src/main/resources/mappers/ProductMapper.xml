@@ -11,7 +11,7 @@
 			pro_Name,pro_Type,
 			pro_Num,pro_State,
 			pro_fontTiltOne,pro_info,
-			pro_file, pro_finger,
+			pro_file, pro_finger,pro_manual,
 			pro_driver, pro_video,
 			pro_fontTiltTwo,pro_backTiltOne,
 			pro_backTiltTwo,pro_font,pro_back,
@@ -22,7 +22,7 @@
 			#{pro_Type},
 			#{pro_Num}, #{pro_State},
 			#{pro_fontTiltOne}, #{pro_info},
-			#{pro_file}, #{pro_finger},
+			#{pro_file}, #{pro_finger},#{pro_manual},
 			#{pro_driver}, #{pro_video},
 		    #{pro_fontTiltTwo},#{pro_backTiltOne},
 			#{pro_backTiltTwo},#{pro_font},#{pro_back},
@@ -31,7 +31,6 @@
 		)
 	</insert>
 	<!-- 展示产品数据 -->
-	<!--  List<ProductVO> findByPid(); -->
 	<select id="showProduct"
 			resultType="cn.WindTech.store.vo.ProductVO">
 		SELECT
@@ -40,7 +39,7 @@
 			product
 		Limit #{startPage},#{pageSize}
 	</select>
-	<!-- 展示产品数据 -->
+	<!-- 展示全部产品数据 -->
 	<!--  List<ProductVO> showAllProduct(); -->
 	<select id="showAllProduct"
 			resultType="cn.WindTech.store.vo.ProductVO">
@@ -51,6 +50,7 @@
 		where
 			pro_State='1'
 	</select>
+	<!-- 搜索产品 -->
 	<select id="searchProduct"
 			resultType="cn.WindTech.store.vo.ProductVO">
 		SELECT
@@ -95,6 +95,7 @@
 				pro_fontTiltOne=#{pro_fontTiltOne},
 				pro_file=#{pro_file},
 				pro_finger=#{pro_finger},
+				pro_manual=#{pro_manual},
 				pro_driver=#{pro_driver},
 				pro_video=#{pro_video}, pro_fontTiltTwo=#{pro_fontTiltTwo},
 				pro_backTiltOne=#{pro_backTiltOne},pro_backTiltTwo=#{pro_backTiltTwo},
@@ -124,13 +125,13 @@
         WHERE
         username=#{username}
     </update>
-
+	<!-- 全部产品数据有多少条 -->
 	<select id="countByPid" resultType="Integer">
 		SELECT
 		COUNT(1) count
 		FROM product
 	</select>
-
+	<!-- 查询不同类型产品数据有多少条-->
 	<select id="countSearch" resultType="Integer">
 		SELECT
 		COUNT(1) count

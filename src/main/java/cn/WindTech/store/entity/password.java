@@ -1,5 +1,5 @@
 package cn.WindTech.store.entity;
-
+//修改密码
 public class password {
     private static final long serialVersionUID = 1L;
     private String oldPassword;

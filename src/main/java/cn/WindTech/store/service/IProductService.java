@@ -25,15 +25,15 @@ public interface IProductService {
      */
     List<ProductVO> getProduct(Integer startPage,Integer pageSize);
     /**
-     *展示产品数据
+     *展示所有产品数据
      */
     List<ProductVO> getAllProduct(Product product);
     /**
-     *展示产品数据
+     *展示搜索产品数据
      */
     List<ProductVO> searchProduct(String pro_Name,String pro_State,String pro_Type,Integer startPage,Integer pageSize);
     /**
-     *展示产品数据
+     *展示搜索产品数据数目
      */
     Integer toSearchCount(String pro_Name,String pro_State,String pro_Type);
     /**
@@ -57,10 +57,11 @@ public interface IProductService {
     void changeInfo(Product product,String username)
             throws UserNotFoundException,
             UpdateException;
-
+//  删除文件
     void delFile(delProduct del, Integer pid, String username, String fileName) throws DeleteException;
+//    更新时间
     void  updateTime(String username);
-
+//  返回所有产品数据的数目
     Integer count();
     /**
      *展示产品类型

@@ -22,7 +22,7 @@ import java.util.List;
 public class ProductServiceImpl implements IProductService {
     @Autowired
     private ProductMapper productMapper;
-
+//  添加产品数据
     @Override
     public void addToPro(Product product,String username) throws InsertException, UpdateException {
         // 4项日志：时间是直接创建对象得到，用户名使用参数username
@@ -40,21 +40,22 @@ public class ProductServiceImpl implements IProductService {
     public List<ProductVO> getProduct(Integer startPage,Integer pageSize) {
         return showProduct(startPage,pageSize);
     }
-    //    查询产品数据
+    //    查询所有产品数据
     @Override
     public List<ProductVO> getAllProduct(Product product) {
         return showAllProduct(product);
     }
-    //    查询产品数据
+    //    搜索产品数据
     @Override
     public List<ProductVO> searchProduct(String pro_Name,String pro_State,String pro_Type,Integer startPage,Integer pageSize) {
         return searchPro(pro_Name,pro_State,pro_Type,startPage,pageSize);
     }
-    //    查询产品数据
+    //    搜索产品数据数目
     @Override
     public Integer toSearchCount(String pro_Name,String pro_State,String pro_Type) {
         return searchCount(pro_Name,pro_State,pro_Type);
     }
+//    根据id获取产品数据
     @Override
     public Product getByPId(Integer pid) {
         return findByPId(pid);
@@ -66,6 +67,7 @@ public class ProductServiceImpl implements IProductService {
         // 执行删除
         deleteByPid(pid);
     }
+//    所有产品数据数目
     @Override
     public Integer count(){
         return countNum();
@@ -97,6 +99,7 @@ public class ProductServiceImpl implements IProductService {
         // 执行产品修改
         updateInfo(product);
     }
+//    修改时间
     @Override
     public void updateTime(String username) throws UserNotFoundException, UpdateException {
         Date date = new Date();
@@ -104,6 +107,7 @@ public class ProductServiceImpl implements IProductService {
         // 执行产品修改
         updateServiceTime(username, formatter.format(date));
     }
+//    获取产品类型
     @Override
     public List<TypeVO> getType() throws UserNotFoundException, UpdateException {
         return showType();
@@ -125,20 +129,22 @@ public class ProductServiceImpl implements IProductService {
         return productMapper.showType();
     }
     /**
-     * 查询产品数据
+     * 查询所有产品数据
      */
     private List<ProductVO> showAllProduct(Product product) {
         return productMapper.showAllProduct(product);
     }
     /**
-     * 查询产品数据
+     * 搜索产品数据
      */
     private List<ProductVO> searchPro(String pro_Name,String pro_State,String pro_Type,Integer startPage,Integer pageSize) {
         return productMapper.searchProduct(pro_Name,pro_State,pro_Type,startPage,pageSize);
     }
+//    返回所有产品数目
     private Integer countNum(){
          return productMapper.countByPid();
     }
+//    返回搜索产品数目
     private Integer searchCount(String pro_Name,String pro_State,String pro_Type){
         return productMapper.countSearch(pro_Name,pro_State,pro_Type);
     }
@@ -172,6 +178,7 @@ public class ProductServiceImpl implements IProductService {
             throw new DeleteException("删除产品时出现未知错误！");
         }
     }
+//    删除文件数据库字段置空
     private void deleteFilePid(delProduct del) {
         Integer rows = productMapper.deleteFile(del);
         if (rows != 1) {

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.WindTech.store.mapper.NewsMapper">
+
+	<!-- 插入新闻 -->
+	<insert id="insert">
+		INSERT INTO news (
+			new_title,new_image,
+			new_date,new_type,
+			new_intro,new_content,
+			createdUser, createdTime,
+			modifiedUser, modifiedTime
+		) VALUE (
+			#{new_title},
+			#{new_image},
+			#{new_date}, #{new_type},
+			#{new_intro}, #{new_content},
+			#{createdUser}, #{createdTime},
+			#{modifiedUser}, #{modifiedTime}
+		)
+	</insert>
+	<!-- 展示新闻 -->
+	<select id="showNews"
+			resultType="cn.WindTech.store.vo.NewsVO">
+		SELECT
+		*
+		FROM
+		news
+		Limit #{startPage},#{pageSize}
+	</select>
+	<!-- 全部新闻数据数目 -->
+	<select id="countByNid" resultType="Integer">
+		SELECT
+		COUNT(1) count
+		FROM news
+	</select>
+
+    <!-- 根据id删除产品数据 -->
+    <delete id="deleteByNid">
+        DELETE FROM news WHERE nid=#{nid}
+    </delete>
+
+    <!-- 修改相应id的新闻数据 -->
+    <update id="updateInfo">
+        UPDATE
+        news
+        SET
+        new_title=#{new_title},new_image=#{new_image},
+        new_date=#{new_date},
+        new_type=#{new_type},
+        new_intro=#{new_intro},
+        new_content=#{new_content},
+        modifiedUser=#{modifiedUser},modifiedTime=#{modifiedTime}
+        WHERE
+        nid=#{nid}
+    </update>
+	<!-- 搜索新闻数据 -->
+	<select id="searchNews"
+			resultType="cn.WindTech.store.vo.NewsVO">
+		SELECT
+		*
+		FROM
+		news
+		where
+		new_title like concat('%',#{new_title},'%')
+		and
+		new_type like concat('%',#{new_type},'%')
+		Limit #{startPage},#{pageSize}
+	</select>
+	<!-- 不同类型的新闻数据有多少条 -->
+	<select id="countSearchNews" resultType="Integer">
+		SELECT
+		COUNT(1) count
+		FROM news
+		where
+		new_title like concat('%',#{new_title},'%')
+		and
+		new_type like concat('%',#{new_type},'%')
+	</select>
+    <!-- 删除相应id的文件路径和文件名 -->
+    <update id="deleteFile">
+        UPDATE
+        news
+        SET
+        ${fileName}=null,
+        modifiedUser=#{modifiedUser},
+        modifiedTime=#{modifiedTime}
+        WHERE
+        nid=#{nid}
+    </update>
+	<!-- 根据id获取新闻信息 -->
+	<select id="findByNid"
+			resultType="cn.WindTech.store.entity.News">
+		SELECT
+		*
+		FROM
+		news
+		WHERE
+		nid=#{nid}
+	</select>
+    <!-- 更新时间 -->
+    <update id="updateTime">
+        UPDATE
+        user
+        SET
+        modifiedTime=#{modifiedTime}
+        WHERE
+        username=#{username}
+    </update>
+</mapper>
+
+
+
+
+
+

@@ -1,7 +1,7 @@
 package cn.WindTech.store.vo;
 
 import java.io.Serializable;
-
+// 文件obj
 public class FileVO implements Serializable {
     private static final long serialVersionUID = -1375921507047753775L;
     private String path;

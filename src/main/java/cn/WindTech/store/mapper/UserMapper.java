@@ -46,9 +46,9 @@ public interface UserMapper {
 	 * @return 受影响的行数
 	 */
 	Integer deleteByUid(Integer uid);
-
+//	展示用户列表
 	List<User> showUser(User user);
-
+//  更新时间
     Integer updateTime(User user);
 
 }

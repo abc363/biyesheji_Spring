@@ -1,17 +1,17 @@
 package cn.WindTech.store.entity;
-//删除产品基类
-public class delProduct extends BaseEntity{
+//删除新闻类
+public class delNews extends BaseEntity{
     private static final long serialVersionUID = 1L;
-    private Integer pid;
+    private Integer nid;
     private String filePath;
     private String fileName;
 
-    public Integer getPid() {
-        return pid;
+    public Integer getNid() {
+        return nid;
     }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
+    public void setNid(Integer nid) {
+        this.nid = nid;
     }
 
     public String getFilePath() {
@@ -32,8 +32,8 @@ public class delProduct extends BaseEntity{
 
     @Override
     public String toString() {
-        return "delProduct{" +
-                "pid=" + pid +
+        return "delNews{" +
+                "nid=" + nid +
                 ", filePath='" + filePath + '\'' +
                 ", fileName='" + fileName + '\'' +
                 '}';
