@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.WindTech.store.mapper.NewsReplyMapper">
+
+	<!-- 插入活动 -->
+	<insert id="insert">
+		INSERT INTO newsReply (
+			rid,comment_id,
+			user_name,reply_date,
+			reply_praise,
+			createdUser, createdTime,
+			modifiedUser, modifiedTime
+		) VALUE (
+			#{rid},
+			#{comment_id},
+			#{user_name}, #{reply_date},
+			#{reply_praise},
+			#{createdUser}, #{createdTime},
+			#{modifiedUser}, #{modifiedTime}
+		)
+	</insert>
+	<!-- 根据id删除活动数据 -->
+	<delete id="deleteByRid">
+		DELETE FROM newsReply WHERE rid=#{rid}
+	</delete>
+	<!-- 展示新闻活动 -->
+	<select id="showNewsReply"
+			resultType="cn.WindTech.entity.NewsReply">
+		SELECT
+		*
+		FROM
+		newsReply
+		Limit #{startPage},#{pageSize}
+	</select>
+	<!-- 全部活动数据数目 -->
+	<select id="countByRid" resultType="Integer">
+		SELECT
+		COUNT(1) count
+		FROM newsReply
+	</select>
+</mapper>
+
+
+
+
+
+

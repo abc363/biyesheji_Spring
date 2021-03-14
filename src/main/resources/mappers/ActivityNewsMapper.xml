@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.WindTech.store.mapper.ActivityNewsMapper">
+
+	<!-- 插入活动 -->
+	<insert id="insert">
+		INSERT INTO activityNews (
+		news_title,users_name,
+		users_id,news_view,
+		news_praise,news_comment,
+		news_date,news_award,
+		createdUser, createdTime,
+		modifiedUser, modifiedTime
+		) VALUE (
+		#{news_title},
+		#{users_name},
+		#{users_id}, #{news_view},
+		#{news_praise}, #{news_comment},
+		#{news_date}, #{news_award},
+		#{createdUser}, #{createdTime},
+		#{modifiedUser}, #{modifiedTime}
+		)
+	</insert>
+	<!-- 展示新闻活动 -->
+	<select id="showActivityNews"
+			resultType="cn.WindTech.entity.Activity">
+		SELECT
+		*
+		FROM
+		activityNews
+		Limit #{startPage},#{pageSize}
+	</select>
+	<!-- 全部活动数据数目 -->
+	<select id="countByAnid" resultType="Integer">
+		SELECT
+		COUNT(1) count
+		FROM activityNews
+	</select>
+
+    <!-- 修改相应id的活动数据 -->
+    <update id="updateInfo">
+        UPDATE
+		activityNews
+        SET
+		news_title=#{news_title},users_name=#{users_name},
+		users_id=#{users_id},
+		news_view=#{news_view},
+		news_praise=#{news_praise},
+		news_comment=#{news_comment},news_date=#{news_date},
+		news_award=#{news_award},
+        modifiedUser=#{modifiedUser},modifiedTime=#{modifiedTime}
+        WHERE
+		anid=#{anid}
+    </update>
+
+	<!-- 根据id获取活动信息 -->
+	<select id="findByAnid"
+			resultType="cn.WindTech.store.entity.ActivityNews">
+		SELECT
+		*
+		FROM
+		activityNews
+		WHERE
+		anid=#{anid}
+	</select>
+</mapper>
+
+
+
+
+
+

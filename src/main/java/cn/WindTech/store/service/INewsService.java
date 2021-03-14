@@ -8,10 +8,6 @@ import cn.WindTech.store.service.ex.DeleteException;
 import cn.WindTech.store.service.ex.InsertException;
 import cn.WindTech.store.service.ex.UpdateException;
 import cn.WindTech.store.service.ex.UserNotFoundException;
-import cn.WindTech.store.vo.NewsVO;
-import cn.WindTech.store.vo.ProductVO;
-import cn.WindTech.store.vo.TypeVO;
-
 import java.util.List;
 
 /**
@@ -21,7 +17,7 @@ public interface INewsService {
 //  增加新闻
     void addToNews(News news, String username) throws InsertException, UpdateException;
 //  获取所有新闻数据
-    List<NewsVO> getNews(Integer startPage, Integer pageSize);
+    List<News> getNews(Integer startPage, Integer pageSize);
     //  获取所有新闻数据数目
     Integer count();
 //  删除新闻
@@ -31,9 +27,9 @@ public interface INewsService {
             throws UserNotFoundException,
             UpdateException;
 //  搜索新闻数据
-    List<NewsVO> searchNews(String new_title,String new_type,Integer startPage,Integer pageSize);
+    List<News> searchNews(String news_title,String news_tag,Integer startPage,Integer pageSize);
 //    搜索新闻数据数目
-    Integer toSearchCountNews(String new_title,String new_type);
+    Integer toSearchCountNews(String news_title,String news_tag);
 //    根据id获取新闻数据
     News getByNid(Integer nid);
 //    更新时间

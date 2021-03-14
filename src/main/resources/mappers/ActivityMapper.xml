@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.WindTech.store.mapper.ActivityMapper">
+
+	<!-- 插入活动 -->
+	<insert id="insert">
+		INSERT INTO activity (
+			activity_name,activity_rules,
+			startTime,endTime,
+			activity_state,awards,
+			createdUser, createdTime,
+			modifiedUser, modifiedTime
+		) VALUE (
+			#{activity_name},
+			#{activity_rules},
+			#{startTime}, #{endTime},
+			#{activity_state}, #{awards},
+			#{createdUser}, #{createdTime},
+			#{modifiedUser}, #{modifiedTime}
+		)
+	</insert>
+	<!-- 展示新闻活动 -->
+	<select id="showActivity"
+			resultType="cn.WindTech.entity.Activity">
+		SELECT
+		*
+		FROM
+		activity
+		Limit #{startPage},#{pageSize}
+	</select>
+	<!-- 全部活动数据数目 -->
+	<select id="countByAid" resultType="Integer">
+		SELECT
+		COUNT(1) count
+		FROM activity
+	</select>
+
+    <!-- 根据id删除活动数据 -->
+    <delete id="deleteByAid">
+        DELETE FROM activity WHERE aid=#{aid}
+    </delete>
+
+    <!-- 修改相应id的活动数据 -->
+    <update id="updateInfo">
+        UPDATE
+        activity
+        SET
+		activity_name=#{activity_name},activity_rules=#{activity_rules},
+		startTime=#{startTime},
+		endTime=#{endTime},
+		activity_state=#{activity_state},
+		awards=#{awards},
+        modifiedUser=#{modifiedUser},modifiedTime=#{modifiedTime}
+        WHERE
+        aid=#{aid}
+    </update>
+	<!-- 搜索活动数据 -->
+	<select id="searchActivity"
+			resultType="cn.WindTech.entity.Activity">
+		SELECT
+		*
+		FROM
+		activity
+		where
+		activity_name like concat('%',#{activity_name},'%')
+		and
+		activity_state like concat('%',#{activity_state},'%')
+		Limit #{startPage},#{pageSize}
+	</select>
+	<!-- 不同类型的活动数据有多少条 -->
+	<select id="countSearchActivity" resultType="Integer">
+		SELECT
+		COUNT(1) count
+		FROM activity
+		where
+		activity_name like concat('%',#{activity_name},'%')
+		and
+		activity_state like concat('%',#{activity_state},'%')
+	</select>
+    <!-- 删除相应id活动规则-->
+    <update id="deleteFile">
+        UPDATE
+		activity
+        SET
+        ${activity_rules}=null,
+        modifiedUser=#{modifiedUser},
+        modifiedTime=#{modifiedTime}
+        WHERE
+        aid=#{aid}
+    </update>
+	<!-- 根据id获取活动信息 -->
+	<select id="findByAid"
+			resultType="cn.WindTech.store.entity.Activity">
+		SELECT
+		*
+		FROM
+		activity
+		WHERE
+		aid=#{aid}
+	</select>
+</mapper>
+
+
+
+
+
+

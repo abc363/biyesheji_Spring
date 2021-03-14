@@ -7,23 +7,31 @@
 	<!-- 插入新闻 -->
 	<insert id="insert">
 		INSERT INTO news (
-			new_title,new_image,
-			new_date,new_type,
-			new_intro,new_content,
+			news_title,news_tag,
+			news_date,news_praise,
+			news_comment,new_content,
+			news_intro,news_isPass,
+			news_view,news_share,
+			news_image,news_hot,
+			news_activity,
 			createdUser, createdTime,
 			modifiedUser, modifiedTime
 		) VALUE (
-			#{new_title},
-			#{new_image},
-			#{new_date}, #{new_type},
-			#{new_intro}, #{new_content},
+			#{news_title},
+			#{news_tag},
+			#{news_date}, #{news_praise},
+			#{news_comment}, #{news_content},
+			#{news_intro}, #{news_isPass},
+			#{news_view}, #{news_share},
+			#{news_image}, #{news_hot},
+			#{news_activity},
 			#{createdUser}, #{createdTime},
 			#{modifiedUser}, #{modifiedTime}
 		)
 	</insert>
 	<!-- 展示新闻 -->
 	<select id="showNews"
-			resultType="cn.WindTech.store.vo.NewsVO">
+			resultType="cn.WindTech.store.entity.News">
 		SELECT
 		*
 		FROM
@@ -47,26 +55,33 @@
         UPDATE
         news
         SET
-        new_title=#{new_title},new_image=#{new_image},
-        new_date=#{new_date},
-        new_type=#{new_type},
-        new_intro=#{new_intro},
-        new_content=#{new_content},
+        news_title=#{news_title},news_tag=#{news_tag},
+        news_date=#{news_date},
+		news_praise=#{news_praise},
+		news_comment=#{news_comment},
+        news_content=#{news_content},
+		news_intro=#{news_intro},
+		news_isPass=#{news_isPass},
+		news_view=#{news_view},
+		news_share=#{news_share},
+		news_image=#{news_image},
+		news_hot=#{news_hot},
+		news_activity=#{news_activity},
         modifiedUser=#{modifiedUser},modifiedTime=#{modifiedTime}
         WHERE
         nid=#{nid}
     </update>
 	<!-- 搜索新闻数据 -->
 	<select id="searchNews"
-			resultType="cn.WindTech.store.vo.NewsVO">
+			resultType="cn.WindTech.store.entity.News">
 		SELECT
 		*
 		FROM
 		news
 		where
-		new_title like concat('%',#{new_title},'%')
+		news_title like concat('%',#{news_title},'%')
 		and
-		new_type like concat('%',#{new_type},'%')
+		news_tag like concat('%',#{news_tag},'%')
 		Limit #{startPage},#{pageSize}
 	</select>
 	<!-- 不同类型的新闻数据有多少条 -->
@@ -75,16 +90,16 @@
 		COUNT(1) count
 		FROM news
 		where
-		new_title like concat('%',#{new_title},'%')
+		news_title like concat('%',#{news_title},'%')
 		and
-		new_type like concat('%',#{new_type},'%')
+		news_tag like concat('%',#{news_tag},'%')
 	</select>
     <!-- 删除相应id的文件路径和文件名 -->
     <update id="deleteFile">
         UPDATE
         news
         SET
-        ${fileName}=null,
+        ${news_image}=null,
         modifiedUser=#{modifiedUser},
         modifiedTime=#{modifiedTime}
         WHERE
@@ -100,15 +115,6 @@
 		WHERE
 		nid=#{nid}
 	</select>
-    <!-- 更新时间 -->
-    <update id="updateTime">
-        UPDATE
-        user
-        SET
-        modifiedTime=#{modifiedTime}
-        WHERE
-        username=#{username}
-    </update>
 </mapper>
 
 

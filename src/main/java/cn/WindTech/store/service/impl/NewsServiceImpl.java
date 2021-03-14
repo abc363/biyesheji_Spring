@@ -45,7 +45,7 @@ public class NewsServiceImpl implements INewsService {
     }
 //    获取新闻数据
     @Override
-    public List<NewsVO> getNews(Integer startPage,Integer pageSize) {
+    public List<News> getNews(Integer startPage,Integer pageSize) {
         return showNews(startPage,pageSize);
     }
 //    获取所有新闻数据
@@ -74,13 +74,13 @@ public class NewsServiceImpl implements INewsService {
     }
 //    搜索新闻
     @Override
-    public List<NewsVO> searchNews(String new_title,String new_type,Integer startPage,Integer pageSize) {
-        return searchNew(new_title,new_type,startPage,pageSize);
+    public List<News> searchNews(String news_title,String news_tag,Integer startPage,Integer pageSize) {
+        return searchNew(news_title,news_tag,startPage,pageSize);
     }
 //    搜索新闻数目
     @Override
-    public Integer toSearchCountNews(String new_title,String new_type) {
-        return searchCountNews(new_title,new_type);
+    public Integer toSearchCountNews(String news_title,String news_tag) {
+        return searchCountNews(news_title,news_tag);
     }
 //  根据id获取新闻数据
     @Override
@@ -122,7 +122,7 @@ public class NewsServiceImpl implements INewsService {
             throw new DeleteException("删除新闻时出现未知错误！");
         }
     }
-    private List<NewsVO> showNews(Integer startPage, Integer pageSize) {
+    private List<News> showNews(Integer startPage, Integer pageSize) {
         return newsMapper.showNews(startPage,pageSize);
     }
     private Integer countNum(){
@@ -136,11 +136,11 @@ public class NewsServiceImpl implements INewsService {
                     "修改新闻数据时出现未知错误！");
         }
     }
-    private List<NewsVO> searchNew(String new_title,String new_type,Integer startPage,Integer pageSize) {
-        return newsMapper.searchNews(new_title,new_type,startPage,pageSize);
+    private List<News> searchNew(String news_title,String news_tag,Integer startPage,Integer pageSize) {
+        return newsMapper.searchNews(news_title,news_tag,startPage,pageSize);
     }
-    private Integer searchCountNews(String new_title,String new_type){
-        return newsMapper.countSearchNews(new_title,new_type);
+    private Integer searchCountNews(String news_title,String news_tag){
+        return newsMapper.countSearchNews(news_title,news_tag);
     }
     private News findByNid(Integer nid) {
         return newsMapper.findByNid(nid);
