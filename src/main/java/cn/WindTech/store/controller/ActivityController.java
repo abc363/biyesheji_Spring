@@ -71,9 +71,11 @@ public class ActivityController extends BaseController{
     @RequestMapping("/search")
     public ResponseResult<JSONObject> searchActivity(@RequestBody SearchActivity search) {
         String activity_name = search.getActivity_name();
-        String activity_state = search.getActivity_stage();
+        String activity_state = search.getActivity_state();
         Integer startPage = search.getStartPage();
         Integer pageSize = search.getPageSize();
+        System.out.println(activity_name+"666666");
+        System.out.println(activity_state+"88888");
         // 调用业务层对象执行
         List<Activity> data = activityService.searchActivity(activity_name,activity_state,startPage,pageSize);
         Integer totalNum = activityService.toSearchCountActivity(activity_name,activity_state);

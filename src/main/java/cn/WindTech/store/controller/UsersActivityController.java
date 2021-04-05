@@ -32,7 +32,7 @@ public class UsersActivityController extends BaseController{
         return new ResponseResult<>(SUCCESS);
     }
     //    显示相应id的产品数据
-    @GetMapping("/{aid}/showUsersActivity")
+    @GetMapping("/{uaid}/showUsersActivity")
     public ResponseResult<UsersActivity> getByUAid(@PathVariable("uaid") Integer uaid) {
         // 调用业务层对象执行
         UsersActivity data=usersActivityService.getByUAid(uaid);

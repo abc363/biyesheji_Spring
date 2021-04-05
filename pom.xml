@@ -11,7 +11,7 @@
 	<groupId>cn.WindTech</groupId>
 	<artifactId>store</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>store</name>
 	<description>Demo project for Spring Boot</description>
 

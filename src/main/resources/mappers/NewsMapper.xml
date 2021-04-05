@@ -9,11 +9,14 @@
 		INSERT INTO news (
 			news_title,news_tag,
 			news_date,news_praise,
-			news_comment,new_content,
+			news_comment,news_content,
 			news_intro,news_isPass,
 			news_view,news_share,
 			news_image,news_hot,
-			news_activity,
+			news_activity,uaid,
+			news_isCold,news_refuselog,
+            news_award,news_activitylog,
+			news_praiseArr,news_keywords,
 			createdUser, createdTime,
 			modifiedUser, modifiedTime
 		) VALUE (
@@ -24,7 +27,10 @@
 			#{news_intro}, #{news_isPass},
 			#{news_view}, #{news_share},
 			#{news_image}, #{news_hot},
-			#{news_activity},
+			#{news_activity},#{uaid},
+			#{news_isCold},#{news_refuselog},
+            #{news_award},#{news_activitylog},
+			#{news_praiseArr},#{news_keywords},
 			#{createdUser}, #{createdTime},
 			#{modifiedUser}, #{modifiedTime}
 		)
@@ -67,6 +73,13 @@
 		news_image=#{news_image},
 		news_hot=#{news_hot},
 		news_activity=#{news_activity},
+		uaid=#{uaid},
+		news_isCold=#{news_isCold},
+		news_refuselog=#{news_refuselog},
+        news_award=#{news_award},
+		news_activitylog=#{news_activitylog},
+		news_praiseArr=#{news_praiseArr},
+		news_keywords=#{news_keywords},
         modifiedUser=#{modifiedUser},modifiedTime=#{modifiedTime}
         WHERE
         nid=#{nid}
@@ -114,6 +127,28 @@
 		news
 		WHERE
 		nid=#{nid}
+	</select>
+
+	<!-- 根据id获取新闻信息 -->
+	<select id="findByANid"
+			resultType="cn.WindTech.store.entity.News">
+		SELECT
+		*
+		FROM
+		news
+		WHERE
+		news_activity=#{anid}
+	</select>
+
+	<!-- 根据id获取新闻信息 -->
+	<select id="findByUAid"
+			resultType="cn.WindTech.store.entity.News">
+		SELECT
+		*
+		FROM
+		news
+		WHERE
+		uaid=#{uaid}
 	</select>
 </mapper>
 

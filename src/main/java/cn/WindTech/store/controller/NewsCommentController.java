@@ -32,11 +32,11 @@ public class NewsCommentController extends BaseController{
     }
     // 展示分页新闻数据
     @GetMapping("/show")
-    public ResponseResult<JSONObject> getNewsComment(@RequestParam("startPage")Integer startPage,
+    public ResponseResult<JSONObject> getNewsComment(@RequestParam("news_id") Integer news_id,@RequestParam("startPage")Integer startPage,
                                                        @RequestParam("pageSize")Integer pageSize) {
         // 调用业务层对象执行
-        List<NewsComment> data = newsCommentService.getNewsComment(startPage,pageSize);
-        Integer totalNum = newsCommentService.count();
+        List<NewsComment> data = newsCommentService.getNewsComment(news_id,startPage,pageSize);
+        Integer totalNum = newsCommentService.count(news_id);
         JSONObject result= new JSONObject();
         result.put("tableData",data);
         result.put("totalNum",totalNum);

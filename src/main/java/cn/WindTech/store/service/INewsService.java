@@ -32,6 +32,10 @@ public interface INewsService {
     Integer toSearchCountNews(String news_title,String news_tag);
 //    根据id获取新闻数据
     News getByNid(Integer nid);
+    //    根据id获取新闻数据
+    List<News> getByANid(Integer anid);
+    //    根据id获取新闻数据
+    List<News> getByUAid(Integer uaid);
 //    更新时间
     void  updateTime(String username);
 //    删除文件

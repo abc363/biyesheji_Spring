@@ -2,25 +2,25 @@ package cn.WindTech.store.entity;
 //搜索新闻基类
 public class SearchNews {
     private static final long serialVersionUID = 1L;
-    private String new_title;
-    private String new_type;
+    private String news_title;
+    private String news_tag;
     private Integer startPage;
     private Integer pageSize;
 
-    public String getNew_title() {
-        return new_title;
+    public String getNews_title() {
+        return news_title;
     }
 
-    public void setNew_title(String new_title) {
-        this.new_title = new_title;
+    public void setNews_title(String news_title) {
+        this.news_title = news_title;
     }
 
-    public String getNew_type() {
-        return new_type;
+    public String getNews_tag() {
+        return news_tag;
     }
 
-    public void setNew_type(String new_type) {
-        this.new_type = new_type;
+    public void setNews_tag(String news_tag) {
+        this.news_tag = news_tag;
     }
 
     public Integer getStartPage() {
@@ -42,8 +42,8 @@ public class SearchNews {
     @Override
     public String toString() {
         return "SearchNews{" +
-                "new_title='" + new_title + '\'' +
-                ", new_type='" + new_type + '\'' +
+                "news_title='" + news_title + '\'' +
+                ", news_tag='" + news_tag + '\'' +
                 ", startPage=" + startPage +
                 ", pageSize=" + pageSize +
                 '}';

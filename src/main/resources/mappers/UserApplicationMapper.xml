@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.WindTech.store.mapper.UserApplicationMapper">
+	<!-- 插入用户数据 -->
+	<!-- Integer insert(User user) -->
+	<insert id="insert">
+		INSERT INTO userApplication (
+			username, password, isDelete,
+			user_avatar,
+			createdUser, createdTime,
+			modifiedUser, modifiedTime
+		) VALUES (
+			#{username}, #{password}, #{isDelete},#{user_avatar},
+			#{createdUser}, #{createdTime},
+			#{modifiedUser}, #{modifiedTime}
+		)
+	</insert>
+	<!-- 根据用户名查询用户数据 -->
+	<!-- User findByUsername(String username) -->
+	<select id="findByUsername"
+		resultType="cn.WindTech.store.entity.UserApplication">
+		SELECT 
+			uaid, username,user_avatar,
+			password, isDelete
+		FROM
+		userApplication
+		WHERE 
+			username=#{username}
+	</select>
+	<!-- 根据用户id查询用户数据 -->
+	<!-- User findByUid(Integer uid) -->
+	<select id="findByUAid"
+			resultType="cn.WindTech.store.entity.UserApplication">
+		SELECT
+		username,user_avatar,
+		password, salt,
+		 isDelete
+		FROM
+		userApplication
+		WHERE
+		uaid=#{uaid}
+	</select>
+	<!-- 更新用户密码 -->
+	<update id="updatePassword">
+		UPDATE
+		userApplication
+		SET
+		password=#{password},
+		modifiedTime=#{modifiedTime}
+		WHERE
+		uaid=#{uaid}
+	</update>
+    <!-- 更新时间 -->
+    <update id="updateTime">
+        UPDATE
+        userApplication
+        SET
+        modifiedUser=#{modifiedUser},
+        modifiedTime=#{modifiedTime}
+        WHERE
+        username=#{username}
+    </update>
+	<!-- 根据id删除用户数据 -->
+	<delete id="deleteByUAid">
+		DELETE FROM userApplication WHERE uaid=#{uaid}
+	</delete>
+	<!-- 展示用户数据 -->
+	<!--  List<ProductVO> showUser(); -->
+	<select id="showUser"
+			resultType="cn.WindTech.store.entity.UserApplication">
+		SELECT
+		*
+		FROM
+		userApplication
+	</select>
+
+	<!-- 搜索新闻数据 -->
+	<select id="searchUser"
+			resultType="cn.WindTech.store.entity.UserApplication">
+		SELECT
+		*
+		FROM
+		userApplication
+		where
+		username like concat('%',#{username},'%')
+		Limit #{startPage},#{pageSize}
+	</select>
+
+</mapper>
+
+
+
+
+
+

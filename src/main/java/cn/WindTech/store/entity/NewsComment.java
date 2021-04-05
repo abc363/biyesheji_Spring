@@ -3,8 +3,10 @@ package cn.WindTech.store.entity;
 public class NewsComment extends BaseEntity{
     private static final long serialVersionUID = 1L;
     private Integer cid;
-    private String news_id;
+    private Integer news_id;
+    private Integer uaid;
     private String user_name;
+    private String content;
     private String comment_date;
     private String user_avatar;
     private String comment_praise;
@@ -17,12 +19,20 @@ public class NewsComment extends BaseEntity{
         this.cid = cid;
     }
 
-    public String getNews_id() {
+    public Integer getNews_id() {
         return news_id;
     }
 
-    public void setNews_id(String news_id) {
+    public void setNews_id(Integer news_id) {
         this.news_id = news_id;
+    }
+
+    public Integer getUaid() {
+        return uaid;
+    }
+
+    public void setUaid(Integer uaid) {
+        this.uaid = uaid;
     }
 
     public String getUser_name() {
@@ -31,6 +41,14 @@ public class NewsComment extends BaseEntity{
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getComment_date() {
@@ -61,8 +79,10 @@ public class NewsComment extends BaseEntity{
     public String toString() {
         return "NewsComment{" +
                 "cid=" + cid +
-                ", news_id='" + news_id + '\'' +
+                ", news_id=" + news_id +
+                ", uaid=" + uaid +
                 ", user_name='" + user_name + '\'' +
+                ", content='" + content + '\'' +
                 ", comment_date='" + comment_date + '\'' +
                 ", user_avatar='" + user_avatar + '\'' +
                 ", comment_praise='" + comment_praise + '\'' +

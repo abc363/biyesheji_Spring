@@ -6,17 +6,17 @@
 
 	<!-- 插入活动 -->
 	<insert id="insert">
-		INSERT INTO usersActivity (
-			user_id,news_tag,
-			tag_praise,tag_comment,
-			tag_view,tag_search,
+		INSERT INTO user_behavior (
+			uaid,news_tag,news_id,
+			tag_praise,tag_comment,tag_share,
+			tag_view,add_tag,
 			createdUser, createdTime,
 			modifiedUser, modifiedTime
 		) VALUE (
-			#{user_id},
-			#{news_tag},
+			#{uaid},#{news_id},
+			#{news_tag},#{tag_share},
 			#{tag_praise}, #{tag_comment},
-			#{tag_view}, #{tag_search},
+			#{tag_view},#{add_tag},
 			#{createdUser}, #{createdTime},
 			#{modifiedUser}, #{modifiedTime}
 		)
@@ -27,7 +27,7 @@
 		SELECT
 		*
 		FROM
-		usersActivity
+		user_behavior
 		WHERE
 		uaid=#{uaid}
 	</select>

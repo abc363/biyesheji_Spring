@@ -17,9 +17,9 @@ public interface INewsCommentService {
 //  增加新闻
     void addToNewsComment(NewsComment newsComment, String username) throws InsertException, UpdateException;
 //  获取所有活动数据
-    List<NewsComment> getNewsComment(Integer startPage, Integer pageSize);
+    List<NewsComment> getNewsComment(Integer news_id,Integer startPage, Integer pageSize);
     //  获取所有活动数据数目
-    Integer count();
+    Integer count(Integer news_id);
 //  删除活动
     void delete(Integer cid) throws DeleteException;
 }

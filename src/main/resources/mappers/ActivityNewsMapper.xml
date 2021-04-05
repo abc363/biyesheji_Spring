@@ -25,7 +25,7 @@
 	</insert>
 	<!-- 展示新闻活动 -->
 	<select id="showActivityNews"
-			resultType="cn.WindTech.entity.Activity">
+			resultType="cn.WindTech.store.entity.Activity">
 		SELECT
 		*
 		FROM

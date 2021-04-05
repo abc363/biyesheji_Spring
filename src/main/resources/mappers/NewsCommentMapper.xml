@@ -6,10 +6,11 @@
 
 	<!-- 插入活动 -->
 	<insert id="insert">
-		INSERT INTO newsComment (
+		INSERT INTO news_comment (
 			cid,news_id,
 			user_name,comment_date,
 			user_avatar,comment_praise,
+			uaid,content,
 			createdUser, createdTime,
 			modifiedUser, modifiedTime
 		) VALUE (
@@ -17,28 +18,31 @@
 			#{news_id},
 			#{user_name}, #{comment_date},
 			#{user_avatar}, #{comment_praise},
+			#{uaid},#{content},
 			#{createdUser}, #{createdTime},
 			#{modifiedUser}, #{modifiedTime}
 		)
 	</insert>
 	<!-- 根据id删除活动数据 -->
 	<delete id="deleteByCid">
-		DELETE FROM newsComment WHERE cid=#{cid}
+		DELETE FROM news_comment WHERE cid=#{cid}
 	</delete>
 	<!-- 展示新闻活动 -->
 	<select id="showNewsComment"
-			resultType="cn.WindTech.entity.NewsComment">
+			resultType="cn.WindTech.store.entity.NewsComment">
 		SELECT
 		*
 		FROM
-		newsComment
+		news_comment
+		WHERE news_id=#{news_id}
 		Limit #{startPage},#{pageSize}
 	</select>
 	<!-- 全部活动数据数目 -->
 	<select id="countByCid" resultType="Integer">
 		SELECT
 		COUNT(1) count
-		FROM newsComment
+		FROM news_comment
+		WHERE news_id=#{news_id}
 	</select>
 </mapper>
 

@@ -27,7 +27,7 @@
 	</delete>
 	<!-- 展示新闻活动 -->
 	<select id="showNewsReply"
-			resultType="cn.WindTech.entity.NewsReply">
+			resultType="cn.WindTech.store.entity.NewsReply">
 		SELECT
 		*
 		FROM

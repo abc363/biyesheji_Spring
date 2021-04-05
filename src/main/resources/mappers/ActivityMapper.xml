@@ -23,7 +23,7 @@
 	</insert>
 	<!-- 展示新闻活动 -->
 	<select id="showActivity"
-			resultType="cn.WindTech.entity.Activity">
+			resultType="cn.WindTech.store.entity.Activity">
 		SELECT
 		*
 		FROM
@@ -58,7 +58,7 @@
     </update>
 	<!-- 搜索活动数据 -->
 	<select id="searchActivity"
-			resultType="cn.WindTech.entity.Activity">
+			resultType="cn.WindTech.store.entity.Activity">
 		SELECT
 		*
 		FROM
@@ -100,6 +100,7 @@
 		WHERE
 		aid=#{aid}
 	</select>
+
 </mapper>
 
 

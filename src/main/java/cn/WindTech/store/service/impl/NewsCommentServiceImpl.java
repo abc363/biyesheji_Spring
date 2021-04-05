@@ -39,13 +39,13 @@ public class NewsCommentServiceImpl implements INewsCommentService {
     }
 //    获取新闻数据
     @Override
-    public List<NewsComment> getNewsComment(Integer startPage,Integer pageSize) {
-        return showNewsComment(startPage,pageSize);
+    public List<NewsComment> getNewsComment(Integer news_id,Integer startPage,Integer pageSize) {
+        return showNewsComment(news_id,startPage,pageSize);
     }
 //    获取所有新闻数据
     @Override
-    public Integer count(){
-        return countNum();
+    public Integer count(Integer news_id){
+        return countNum(news_id);
     }
     //    删除新闻数据
     @Override
@@ -63,11 +63,11 @@ public class NewsCommentServiceImpl implements INewsCommentService {
                     "添加活动数据出现未知错误！");
         }
     }
-    private List<NewsComment> showNewsComment(Integer startPage, Integer pageSize) {
-        return newsCommentMapper.showNewsComment(startPage,pageSize);
+    private List<NewsComment> showNewsComment(Integer news_id,Integer startPage, Integer pageSize) {
+        return newsCommentMapper.showNewsComment(news_id,startPage,pageSize);
     }
-    private Integer countNum(){
-        return newsCommentMapper.countByCid();
+    private Integer countNum(Integer news_id){
+        return newsCommentMapper.countByCid(news_id);
     }
     private void deleteByCid(Integer cid) {
         Integer rows = newsCommentMapper.deleteByCid(cid);

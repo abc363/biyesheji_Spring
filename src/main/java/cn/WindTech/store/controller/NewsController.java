@@ -74,13 +74,13 @@ public class NewsController extends BaseController{
     // 模糊搜索新闻数据
     @RequestMapping("/search")
     public ResponseResult<JSONObject> searchNews(@RequestBody SearchNews search) {
-        String new_title = search.getNew_title();
-        String new_type = search.getNew_type();
+        String news_title = search.getNews_title();
+        String news_tag = search.getNews_tag();
         Integer startPage = search.getStartPage();
         Integer pageSize = search.getPageSize();
         // 调用业务层对象执行
-        List<News> data = newsService.searchNews(new_title,new_type,startPage,pageSize);
-        Integer totalNum = newsService.toSearchCountNews(new_title,new_type);
+        List<News> data = newsService.searchNews(news_title,news_tag,startPage,pageSize);
+        Integer totalNum = newsService.toSearchCountNews(news_title,news_tag);
         JSONObject result = new JSONObject();
         result.put("tableData",data);
         result.put("totalNum",totalNum);
@@ -92,6 +92,22 @@ public class NewsController extends BaseController{
     public ResponseResult<News> getByNid(@PathVariable("nid") Integer nid) {
         // 调用业务层对象执行
         News data=newsService.getByNid(nid);
+        // 返回
+        return new ResponseResult<>(SUCCESS,data);
+    }
+    //    显示相应id的产品数据
+    @GetMapping("/{anid}/showNewsActivity")
+    public ResponseResult<List<News>> getByANid(@PathVariable("anid") Integer anid) {
+        // 调用业务层对象执行
+        List<News> data=newsService.getByANid(anid);
+        // 返回
+        return new ResponseResult<>(SUCCESS,data);
+    }
+    //    显示相应id的产品数据
+    @GetMapping("/{uaid}/showNewsByUser")
+    public ResponseResult<List<News>> getByUAid(@PathVariable("uaid") Integer uaid) {
+        // 调用业务层对象执行
+        List<News> data=newsService.getByUAid(uaid);
         // 返回
         return new ResponseResult<>(SUCCESS,data);
     }

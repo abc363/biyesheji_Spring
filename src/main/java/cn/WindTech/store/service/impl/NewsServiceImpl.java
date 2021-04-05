@@ -94,6 +94,14 @@ public class NewsServiceImpl implements INewsService {
                     "添加新闻数据出现未知错误！");
         }
     }
+    @Override
+    public List<News> getByANid(Integer anid) {
+        return findByANid(anid);
+    }
+    @Override
+    public List<News> getByUAid(Integer uaid) {
+        return findByUAid(uaid);
+    }
     //    删除文件数据
     @Override
     @Transactional
@@ -145,7 +153,12 @@ public class NewsServiceImpl implements INewsService {
     private News findByNid(Integer nid) {
         return newsMapper.findByNid(nid);
     }
-
+    private List<News> findByANid(Integer anid) {
+        return newsMapper.findByANid(anid);
+    }
+    private List<News> findByUAid(Integer uaid) {
+        return newsMapper.findByUAid(uaid);
+    }
     private void updateServiceTime(String username,String time) {
         Integer rows = newsMapper.updateTime(username,time);
         if (rows != 1) {

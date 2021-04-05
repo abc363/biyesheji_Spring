@@ -27,6 +27,12 @@ public interface NewsMapper {
                         @Param("news_tag") String new_type);
 //    根据id拿取数据
     News findByNid(Integer nid);
+
+    //    根据id拿取数据
+    List<News> findByANid(Integer anid);
+
+    //    根据id拿取数据
+    List<News> findByUAid(Integer uaid);
 //  更新时间
     Integer updateTime(@Param("username")String username,
                        @Param("modifiedTime")String modifiedTime);
