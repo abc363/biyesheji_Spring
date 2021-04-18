@@ -7,7 +7,7 @@
 	<!-- 插入活动 -->
 	<insert id="insert">
 		INSERT INTO user_behavior (
-			uaid,news_tag,news_id,
+			uaid,news_id,news_tag,
 			tag_praise,tag_comment,tag_share,
 			tag_view,add_tag,
 			createdUser, createdTime,
@@ -31,6 +31,28 @@
 		WHERE
 		uaid=#{uaid}
 	</select>
+	<!-- 根据id获取活动信息 -->
+	<select id="findByUAidNid"
+			resultType="cn.WindTech.store.entity.UsersActivity">
+		SELECT
+		*
+		FROM
+		user_behavior
+		WHERE
+		uaid=#{uaid}
+		and
+		news_id=#{news_id}
+	</select>
+	<update id="updateActivity">
+		UPDATE
+		user_behavior
+		SET
+		${add_tag} = ${add_tag}+1
+		WHERE
+		uaid=#{uaid}
+		and
+		news_id=#{news_id}
+	</update>
 </mapper>
 
 

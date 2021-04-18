@@ -46,6 +46,19 @@ public class NewsController extends BaseController{
         // 返回
         return new ResponseResult<>(SUCCESS, result);
     }
+    // 展示分页新闻数据
+    @GetMapping("/showByCold")
+    public ResponseResult<JSONObject> getNewsByCold(@RequestParam("startPage")Integer startPage,
+                                              @RequestParam("pageSize")Integer pageSize) {
+        // 调用业务层对象执行
+        List<News> data = newsService.getNewsByCold(startPage,pageSize);
+        Integer totalNum = newsService.countByCold();
+        JSONObject result= new JSONObject();
+        result.put("tableData",data);
+        result.put("totalNum",totalNum);
+        // 返回
+        return new ResponseResult<>(SUCCESS, result);
+    }
 
     //删除特定id的数据
     @RequestMapping("/{nid}/delete")
@@ -54,7 +67,7 @@ public class NewsController extends BaseController{
 //        String username = session.getAttribute("username").toString();
         String username = "windiot";
         newsService.delete(nid);
-        newsService.updateTime(username);
+//        newsService.updateTime(username);
         // 返回
         return new ResponseResult<>(SUCCESS);
     }
@@ -92,6 +105,23 @@ public class NewsController extends BaseController{
     public ResponseResult<News> getByNid(@PathVariable("nid") Integer nid) {
         // 调用业务层对象执行
         News data=newsService.getByNid(nid);
+        // 返回
+        return new ResponseResult<>(SUCCESS,data);
+    }
+    //    显示相应id的产品数据
+    @GetMapping("/showByTag")
+    public ResponseResult<List<News>> getByTag(@RequestBody SearchNews search) {
+        // 调用业务层对象执行
+        String news_tag = search.getNews_tag();
+        List<News> data=newsService.getByTag(news_tag);
+        // 返回
+        return new ResponseResult<>(SUCCESS,data);
+    }
+    //    显示相应id的产品数据
+    @GetMapping("/showAllNews")
+    public ResponseResult<List<News>> getAllNews() {
+        // 调用业务层对象执行
+        List<News> data=newsService.getAllNews();
         // 返回
         return new ResponseResult<>(SUCCESS,data);
     }

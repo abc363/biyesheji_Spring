@@ -13,8 +13,13 @@ public interface NewsMapper {
      *展示新闻数据
      */
     List<News> showNews(@Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
+    /**
+     *展示新闻数据
+     */
+    List<News> showNewsByCold(@Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
 //    所有新闻数目
     Integer countByNid();
+    Integer countByCold();
 //     根据id删除新闻数据
     Integer deleteByNid(Integer nid);
 //    更新新闻数据
@@ -30,6 +35,11 @@ public interface NewsMapper {
 
     //    根据id拿取数据
     List<News> findByANid(Integer anid);
+    //    根据id拿取数据
+    List<News> searchNewsByTag(String news_tag);
+
+    List<News> showAllNews();
+
 
     //    根据id拿取数据
     List<News> findByUAid(Integer uaid);

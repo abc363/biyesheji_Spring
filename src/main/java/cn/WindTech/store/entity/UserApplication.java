@@ -7,6 +7,9 @@ public class UserApplication extends BaseEntity{
 	private String password;
 	private String user_avatar;
 	private Integer isDelete;
+	private Integer news_isPublish;
+	private Integer news_isNow;
+	private Integer isCold;
 
 	public Integer getUaid() {
 		return uaid;
@@ -48,6 +51,30 @@ public class UserApplication extends BaseEntity{
 		this.isDelete = isDelete;
 	}
 
+	public Integer getNews_isPublish() {
+		return news_isPublish;
+	}
+
+	public void setNews_isPublish(Integer news_isPublish) {
+		this.news_isPublish = news_isPublish;
+	}
+
+	public Integer getNews_isNow() {
+		return news_isNow;
+	}
+
+	public void setNews_isNow(Integer news_isNow) {
+		this.news_isNow = news_isNow;
+	}
+
+	public Integer getIsCold() {
+		return isCold;
+	}
+
+	public void setIsCold(Integer isCold) {
+		this.isCold = isCold;
+	}
+
 	@Override
 	public String toString() {
 		return "UserApplication{" +
@@ -56,6 +83,9 @@ public class UserApplication extends BaseEntity{
 				", password='" + password + '\'' +
 				", user_avatar='" + user_avatar + '\'' +
 				", isDelete=" + isDelete +
+				", news_isPublish=" + news_isPublish +
+				", news_isNow=" + news_isNow +
+				", isCold=" + isCold +
 				'}';
 	}
 }

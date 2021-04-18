@@ -30,6 +30,11 @@ public interface UserApplicationMapper {
             @Param("password") String password,
             @Param("modifiedTime") String modifiedTime);
 
+	Integer updateUser(
+			@Param("uaid") Integer uaid,
+			@Param("news_isPublish") Integer news_isPublish,
+			@Param("news_isNow") Integer news_isNow);
+
 	/**
 	 * 根据用户id查询用户数据
 	 * @param uaid 用户id

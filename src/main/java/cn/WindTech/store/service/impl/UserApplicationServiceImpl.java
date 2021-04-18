@@ -31,9 +31,7 @@ public class UserApplicationServiceImpl implements IUserApplicationService {
 		UserApplication result = findByUsername(username);
 		// 检查用户名是否被占用：如果查询到数据，则表示被占用，如果查询结果为null，则表示用户名没有被占用
 		if (result == null) {
-			// 设置is_delete
 			userApplication.setIsDelete(0);
-			// 设置4项日志
 			Date date = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			userApplication.setCreatedUser(username);
@@ -57,13 +55,11 @@ public class UserApplicationServiceImpl implements IUserApplicationService {
 		UserApplication result = findByUsername(username);
 		// 判断查询结果是否为null
 		if (result == null) {
-			// 是：抛出UserNotFoundException
 			throw new UserNotFoundException(
 				"登录失败！尝试登录的用户不存在！");
 		}
 		// 判断is_delete是否标记为已删除：isDelete属性值是否为1
 		if (result.getIsDelete().equals(1)) {
-			// 是：抛出UserNotFoundException
 			throw new UserNotFoundException(
 				"登录失败！尝试登录的用户不存在！");
 		}
@@ -73,12 +69,10 @@ public class UserApplicationServiceImpl implements IUserApplicationService {
 			userApplication.setModifiedUser(username);
 			userApplication.setModifiedTime(formatter.format(date));
             updateTime(userApplication);
-			// 是：准备返回结果，先去除部分不需要对外使用的数据
 			result.setIsDelete(null);
 			// 返回查询结果
 			return result;
 		} else {
-			// 否：抛出PasswordNotMatchException
 			throw new PasswordNotMatchException(
 				"登录失败！密码错误！");
 		}
@@ -110,6 +104,11 @@ public class UserApplicationServiceImpl implements IUserApplicationService {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		updatePassword(uaid, newPassword,formatter.format(date));
+	}
+	@Override
+	public void changeUser(Integer uaid, Integer news_isPublish, Integer news_isNow)
+			throws UpdateException {
+		updateUser(uaid, news_isPublish,news_isNow);
 	}
 	//    搜索新闻
 	@Override
@@ -166,6 +165,14 @@ public class UserApplicationServiceImpl implements IUserApplicationService {
 	private void updatePassword(
 			Integer uaid, String password,String time) {
 		Integer rows = userApplicationMapper.updatePassword(uaid, password,time);
+		if (rows != 1) {
+			throw new UpdateException(
+					"修改用户数据时出现未知错误！");
+		}
+	}
+	private void updateUser(
+			Integer uaid, Integer news_isPublish,Integer news_isNow) {
+		Integer rows = userApplicationMapper.updateUser(uaid, news_isPublish,news_isNow);
 		if (rows != 1) {
 			throw new UpdateException(
 					"修改用户数据时出现未知错误！");

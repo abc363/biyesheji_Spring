@@ -24,7 +24,6 @@ public class ActivityNewsController extends BaseController{
     //添加新闻数据
     @PostMapping(value="/add")
     public ResponseResult<List<ActivityNews>> product(@RequestBody ActivityNews activityNews, HttpSession session) {
-//        String username = session.getAttribute("username").toString();
         String username = "windiot";
         activityNewsService.addToActivityNews(activityNews,username);
         // 返回成功

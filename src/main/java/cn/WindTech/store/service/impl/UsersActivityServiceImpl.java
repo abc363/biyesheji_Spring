@@ -36,11 +36,19 @@ public class UsersActivityServiceImpl implements IUsersActivityService {
         // 插入数据：insert(news)
         insert(usersActivity);
     }
-
+    @Override
+    public void updateAct(Integer uaid,Integer news_id,String add_tag) {
+        // 执行新闻修改
+        updateInfo(uaid,news_id,add_tag);
+    }
 //  根据id获取新闻数据
     @Override
-    public UsersActivity getByUAid(Integer uaid) {
+    public List<UsersActivity> getByUAid(Integer uaid) {
         return findByUAid(uaid);
+    }
+    @Override
+    public UsersActivity getByUAidNid(Integer uaid,Integer news_id) {
+        return findByUAidNid(uaid,news_id);
     }
     private void insert(UsersActivity usersActivity) {
         Integer rows = usersActivityMapper.insert(usersActivity);
@@ -50,8 +58,17 @@ public class UsersActivityServiceImpl implements IUsersActivityService {
         }
     }
 
-    private UsersActivity findByUAid(Integer uaid) {
+    private List<UsersActivity> findByUAid(Integer uaid) {
         return usersActivityMapper.findByUAid(uaid);
     }
-
+    private UsersActivity findByUAidNid(Integer uaid,Integer news_id) {
+        return usersActivityMapper.findByUAidNid(uaid, news_id);
+    }
+    private void updateInfo(Integer uaid,Integer news_id,String add_tag) {
+        Integer rows = usersActivityMapper.updateActivity(uaid,news_id,add_tag);
+        if (rows != 1) {
+            throw new UpdateException(
+                    "修改数据时出现未知错误！");
+        }
+    }
 }

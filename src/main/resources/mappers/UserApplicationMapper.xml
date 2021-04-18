@@ -8,11 +8,12 @@
 	<insert id="insert">
 		INSERT INTO userApplication (
 			username, password, isDelete,
-			user_avatar,
+			user_avatar,news_isPublish,news_isNow,isCold,
 			createdUser, createdTime,
 			modifiedUser, modifiedTime
 		) VALUES (
 			#{username}, #{password}, #{isDelete},#{user_avatar},
+			#{news_isPublish},#{news_isNow},#{isCold},
 			#{createdUser}, #{createdTime},
 			#{modifiedUser}, #{modifiedTime}
 		)
@@ -22,7 +23,7 @@
 	<select id="findByUsername"
 		resultType="cn.WindTech.store.entity.UserApplication">
 		SELECT 
-			uaid, username,user_avatar,
+			uaid, username,user_avatar,news_isNow,news_isPublish,isCold,
 			password, isDelete
 		FROM
 		userApplication
@@ -35,7 +36,8 @@
 			resultType="cn.WindTech.store.entity.UserApplication">
 		SELECT
 		username,user_avatar,
-		password, salt,
+		password, salt,isCold,
+		news_isNow,news_isPublish,
 		 isDelete
 		FROM
 		userApplication
@@ -49,6 +51,16 @@
 		SET
 		password=#{password},
 		modifiedTime=#{modifiedTime}
+		WHERE
+		uaid=#{uaid}
+	</update>
+	<!-- 更新用户密码 -->
+	<update id="updateUser">
+		UPDATE
+		userApplication
+		SET
+		news_isPublish=#{news_isPublish},
+		news_isNow=#{news_isNow}
 		WHERE
 		uaid=#{uaid}
 	</update>

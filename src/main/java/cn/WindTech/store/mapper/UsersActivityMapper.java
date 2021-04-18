@@ -10,5 +10,7 @@ import java.util.List;
 public interface UsersActivityMapper {
     Integer insert(UsersActivity usersActivity);
 //    根据id拿取数据
-    UsersActivity findByUAid(Integer uaid);
+List<UsersActivity> findByUAid(Integer uaid);
+    UsersActivity findByUAidNid(Integer uaid,Integer news_id);
+    Integer updateActivity(Integer uaid,Integer news_id,String add_tag);
 }

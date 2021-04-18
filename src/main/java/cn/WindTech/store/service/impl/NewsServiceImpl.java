@@ -48,10 +48,18 @@ public class NewsServiceImpl implements INewsService {
     public List<News> getNews(Integer startPage,Integer pageSize) {
         return showNews(startPage,pageSize);
     }
-//    获取所有新闻数据
+    @Override
+    public List<News> getNewsByCold(Integer startPage,Integer pageSize) {
+        return showNewsByCold(startPage,pageSize);
+    }
+    //    获取所有新闻数据
     @Override
     public Integer count(){
         return countNum();
+    }
+    @Override
+    public Integer countByCold(){
+        return countNumByCold();
     }
 //    删除新闻数据
     @Override
@@ -99,8 +107,16 @@ public class NewsServiceImpl implements INewsService {
         return findByANid(anid);
     }
     @Override
+    public List<News> getAllNews() {
+        return findAllNews();
+    }
+    @Override
     public List<News> getByUAid(Integer uaid) {
         return findByUAid(uaid);
+    }
+    @Override
+    public List<News> getByTag(String news_tag) {
+        return findByTag(news_tag);
     }
     //    删除文件数据
     @Override
@@ -133,8 +149,14 @@ public class NewsServiceImpl implements INewsService {
     private List<News> showNews(Integer startPage, Integer pageSize) {
         return newsMapper.showNews(startPage,pageSize);
     }
+    private List<News> showNewsByCold(Integer startPage, Integer pageSize) {
+        return newsMapper.showNewsByCold(startPage,pageSize);
+    }
     private Integer countNum(){
         return newsMapper.countByNid();
+    }
+    private Integer countNumByCold(){
+        return newsMapper.countByCold();
     }
 
     private void updateInfo(News news) {
@@ -153,8 +175,14 @@ public class NewsServiceImpl implements INewsService {
     private News findByNid(Integer nid) {
         return newsMapper.findByNid(nid);
     }
+    private List<News> findAllNews() {
+        return newsMapper.showAllNews();
+    }
     private List<News> findByANid(Integer anid) {
         return newsMapper.findByANid(anid);
+    }
+    private List<News> findByTag(String news_tag) {
+        return newsMapper.searchNewsByTag(news_tag);
     }
     private List<News> findByUAid(Integer uaid) {
         return newsMapper.findByUAid(uaid);

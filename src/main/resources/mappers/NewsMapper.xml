@@ -44,11 +44,30 @@
 		news
 		Limit #{startPage},#{pageSize}
 	</select>
+	<!-- 展示新闻 -->
+	<select id="showNewsByCold"
+			resultType="cn.WindTech.store.entity.News">
+		SELECT
+		*
+		FROM
+		news
+		where
+		news_isCold = 1
+		Limit #{startPage},#{pageSize}
+	</select>
 	<!-- 全部新闻数据数目 -->
 	<select id="countByNid" resultType="Integer">
 		SELECT
 		COUNT(1) count
 		FROM news
+	</select>
+	<!-- 全部新闻数据数目 -->
+	<select id="countByCold" resultType="Integer">
+		SELECT
+		COUNT(1) count
+		FROM news
+		where
+		news_isCold = 1
 	</select>
 
     <!-- 根据id删除产品数据 -->
@@ -95,6 +114,8 @@
 		news_title like concat('%',#{news_title},'%')
 		and
 		news_tag like concat('%',#{news_tag},'%')
+		and
+		news_isCold = 1
 		Limit #{startPage},#{pageSize}
 	</select>
 	<!-- 不同类型的新闻数据有多少条 -->
@@ -149,6 +170,26 @@
 		news
 		WHERE
 		uaid=#{uaid}
+	</select>
+
+	<select id="searchNewsByTag"
+			resultType="cn.WindTech.store.entity.News">
+		SELECT
+		*
+		FROM
+		news
+		where
+		news_tag = #{news_tag}
+	</select>
+
+	<select id="showAllNews"
+			resultType="cn.WindTech.store.entity.News">
+		SELECT
+		*
+		FROM
+		news
+		where
+		news_isPass = 1
 	</select>
 </mapper>
 

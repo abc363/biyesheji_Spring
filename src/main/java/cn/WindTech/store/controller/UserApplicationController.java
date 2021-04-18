@@ -54,6 +54,20 @@ public class UserApplicationController extends BaseController{
 		// 返回结果
 		return new ResponseResult<>(SUCCESS);
 	}
+
+	@RequestMapping("/changeUser")
+	public ResponseResult<Void> changeUser(
+			@RequestBody UserApplication userApplication,
+			HttpSession session) {
+		// 从session中获取uid和username
+		Integer uaid = userApplication.getUaid();
+		Integer news_isPublish = userApplication.getNews_isPublish();
+		Integer news_isNow = userApplication.getNews_isNow();
+		// 执行修改密码：
+		userApplicationService.changeUser(uaid,news_isPublish,news_isNow);
+		// 返回结果
+		return new ResponseResult<>(SUCCESS);
+	}
 	//删除特定id的数据
 	@RequestMapping("/{uaid}/deleteUser")
 	public ResponseResult<Void> delete(@PathVariable("uaid") Integer uaid,UserApplication userApplication) {

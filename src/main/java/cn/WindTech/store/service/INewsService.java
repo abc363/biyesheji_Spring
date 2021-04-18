@@ -18,8 +18,10 @@ public interface INewsService {
     void addToNews(News news, String username) throws InsertException, UpdateException;
 //  获取所有新闻数据
     List<News> getNews(Integer startPage, Integer pageSize);
+    List<News> getNewsByCold(Integer startPage, Integer pageSize);
     //  获取所有新闻数据数目
     Integer count();
+    Integer countByCold();
 //  删除新闻
     void delete(Integer nid) throws DeleteException;
 //  修改新闻数据
@@ -36,6 +38,8 @@ public interface INewsService {
     List<News> getByANid(Integer anid);
     //    根据id获取新闻数据
     List<News> getByUAid(Integer uaid);
+    List<News> getAllNews();
+    List<News> getByTag(String news_tag);
 //    更新时间
     void  updateTime(String username);
 //    删除文件

@@ -40,6 +40,12 @@ public interface IUserApplicationService {
 			throws UserNotFoundException,
 			PasswordNotMatchException,
 			UpdateException;
+
+	void changeUser(
+			Integer uaid, Integer news_isPublish,
+			Integer news_isNow)
+			throws
+			UpdateException;
 	/**
 	 * 根据id删除用户数据
 	 * @param uaid 将删除的用户数据的id

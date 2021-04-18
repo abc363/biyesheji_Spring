@@ -51,19 +51,14 @@ public class UserServiceImpl implements IUserService {
 //	登录功能
 	@Override
 	public User login(User user) throws UserNotFoundException, PasswordNotMatchException {
-		// 根据参数username查询用户：User findByUsername(String username)
-		String username = user.getUsername();
+		String username = user.getUsername();// 根据参数username查询用户：User findByUsername(String username)
 		String password = user.getPassword();
 		User result = findByUsername(username);
-		// 判断查询结果是否为null
-		if (result == null) {
-			// 是：抛出UserNotFoundException
+		if (result == null) {// 判断查询结果是否为null
 			throw new UserNotFoundException(
 				"登录失败！尝试登录的用户不存在！");
 		}
-		// 判断is_delete是否标记为已删除：isDelete属性值是否为1
-		if (result.getIsDelete().equals(1)) {
-			// 是：抛出UserNotFoundException
+		if (result.getIsDelete().equals(1)) {// 判断is_delete是否标记为已删除：isDelete属性值是否为1
 			throw new UserNotFoundException(
 				"登录失败！尝试登录的用户不存在！");
 		}
@@ -73,12 +68,9 @@ public class UserServiceImpl implements IUserService {
             user.setModifiedUser(username);
             user.setModifiedTime(formatter.format(date));
             updateTime(user);
-			// 是：准备返回结果，先去除部分不需要对外使用的数据
 			result.setIsDelete(null);
-			// 返回查询结果
 			return result;
 		} else {
-			// 否：抛出PasswordNotMatchException
 			throw new PasswordNotMatchException(
 				"登录失败！密码错误！");
 		}
