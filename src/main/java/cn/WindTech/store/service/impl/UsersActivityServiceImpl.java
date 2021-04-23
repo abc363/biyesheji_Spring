@@ -47,6 +47,10 @@ public class UsersActivityServiceImpl implements IUsersActivityService {
         return findByUAid(uaid);
     }
     @Override
+    public List<UsersActivity> getAll() {
+        return findAll();
+    }
+    @Override
     public UsersActivity getByUAidNid(Integer uaid,Integer news_id) {
         return findByUAidNid(uaid,news_id);
     }
@@ -70,5 +74,8 @@ public class UsersActivityServiceImpl implements IUsersActivityService {
             throw new UpdateException(
                     "修改数据时出现未知错误！");
         }
+    }
+    private List<UsersActivity> findAll() {
+        return usersActivityMapper.showAll();
     }
 }

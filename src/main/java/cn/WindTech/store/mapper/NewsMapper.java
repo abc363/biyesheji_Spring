@@ -24,6 +24,7 @@ public interface NewsMapper {
     Integer deleteByNid(Integer nid);
 //    更新新闻数据
     Integer updateInfo(News news);
+    Integer updateView(Integer nid,Integer news_view);
 //      搜索新闻数据
     List<News> searchNews(@Param("news_title")String new_title, @Param("news_tag") String new_type,
                                 @Param("startPage")Integer startPage, @Param("pageSize")Integer pageSize);

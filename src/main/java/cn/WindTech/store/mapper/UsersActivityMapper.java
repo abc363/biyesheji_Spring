@@ -13,4 +13,5 @@ public interface UsersActivityMapper {
 List<UsersActivity> findByUAid(Integer uaid);
     UsersActivity findByUAidNid(Integer uaid,Integer news_id);
     Integer updateActivity(Integer uaid,Integer news_id,String add_tag);
+    List<UsersActivity> showAll();
 }

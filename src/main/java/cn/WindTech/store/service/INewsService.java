@@ -28,6 +28,7 @@ public interface INewsService {
     void changeInfo(News news,String username)
             throws UserNotFoundException,
             UpdateException;
+    void changeView(Integer nid,Integer news_view);
 //  搜索新闻数据
     List<News> searchNews(String news_title,String news_tag,Integer startPage,Integer pageSize);
 //    搜索新闻数据数目

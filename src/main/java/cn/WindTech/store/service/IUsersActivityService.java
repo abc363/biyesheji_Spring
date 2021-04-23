@@ -16,6 +16,7 @@ public interface IUsersActivityService {
     void addToUsersActivity(UsersActivity usersActivity, String username) throws InsertException, UpdateException;
 //    根据id获取新闻数据
 List<UsersActivity> getByUAid(Integer uaid);
+    List<UsersActivity> getAll();
     UsersActivity getByUAidNid(Integer uaid,Integer news_id);
     void  updateAct(Integer uaid,Integer news_id,String add_tag);
 }

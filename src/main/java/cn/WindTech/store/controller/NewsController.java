@@ -27,8 +27,8 @@ public class NewsController extends BaseController{
     //添加新闻数据
     @PostMapping(value="/add")
     public ResponseResult<List<News>> product(@RequestBody News news, HttpSession session) {
-//        String username = session.getAttribute("username").toString();
-        String username = "windiot";
+        String username = session.getAttribute("username").toString();
+//        String username = "windiot";
         newsService.addToNews(news,username);
         // 返回成功
         return new ResponseResult<>(SUCCESS);
@@ -81,6 +81,13 @@ public class NewsController extends BaseController{
         String username = "windiot";
         newsService.changeInfo(news,username);
 
+        // 返回成功
+        return new ResponseResult<>(SUCCESS);
+    }
+    @RequestMapping("/{nid}/{news_view}/change_view")
+    public ResponseResult<Void> changeView(@PathVariable("nid") Integer nid,
+                                           @PathVariable("news_view") Integer news_view,HttpSession session) throws IOException {
+        newsService.changeView(nid,news_view);
         // 返回成功
         return new ResponseResult<>(SUCCESS);
     }

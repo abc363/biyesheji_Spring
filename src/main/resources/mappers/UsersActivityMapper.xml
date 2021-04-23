@@ -3,7 +3,13 @@
 	"http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.WindTech.store.mapper.UsersActivityMapper">
-
+	<select id="showAll"
+			resultType="cn.WindTech.store.entity.UsersActivity">
+		SELECT
+		*
+		FROM
+		user_behavior
+	</select>
 	<!-- 插入活动 -->
 	<insert id="insert">
 		INSERT INTO user_behavior (

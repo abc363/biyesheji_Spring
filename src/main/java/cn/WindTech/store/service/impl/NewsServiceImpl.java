@@ -80,6 +80,10 @@ public class NewsServiceImpl implements INewsService {
         // 执行新闻修改
         updateInfo(news);
     }
+    @Override
+    public void changeView(Integer nid,Integer news_view) throws UserNotFoundException, UpdateException {
+        updateView(nid,news_view);
+    }
 //    搜索新闻
     @Override
     public List<News> searchNews(String news_title,String news_tag,Integer startPage,Integer pageSize) {
@@ -161,6 +165,13 @@ public class NewsServiceImpl implements INewsService {
 
     private void updateInfo(News news) {
         Integer rows = newsMapper.updateInfo(news);
+        if (rows != 1) {
+            throw new UpdateException(
+                    "修改新闻数据时出现未知错误！");
+        }
+    }
+    private void updateView(Integer nid,Integer news_view) {
+        Integer rows = newsMapper.updateView(nid,news_view);
         if (rows != 1) {
             throw new UpdateException(
                     "修改新闻数据时出现未知错误！");

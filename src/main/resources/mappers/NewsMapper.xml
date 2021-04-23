@@ -103,6 +103,14 @@
         WHERE
         nid=#{nid}
     </update>
+	<update id="updateView">
+		UPDATE
+		news
+		SET
+		news_view=#{news_view}
+		WHERE
+		nid=#{nid}
+	</update>
 	<!-- 搜索新闻数据 -->
 	<select id="searchNews"
 			resultType="cn.WindTech.store.entity.News">

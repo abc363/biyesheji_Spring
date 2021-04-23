@@ -50,4 +50,12 @@ public class UsersActivityController extends BaseController{
         // 返回
         return new ResponseResult<>(SUCCESS,data);
     }
+    // 展示分页新闻数据
+    @GetMapping("/show")
+    public ResponseResult<List<UsersActivity>> getAll() {
+        // 调用业务层对象执行
+        List<UsersActivity> data = usersActivityService.getAll();
+        // 返回
+        return new ResponseResult<>(SUCCESS,data);
+    }
 }
